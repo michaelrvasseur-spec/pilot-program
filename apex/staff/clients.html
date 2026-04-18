@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Clients · The Pilot Program Staff</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Montserrat:wght@700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="staff.css"/></head>
+<body class="portal"><div class="portal-shell"><div id="sidebar-mount"></div>
+<main class="main">
+  <div class="topbar">
+    <div><h1>Clients <small>342 total · 187 active memberships</small></h1></div>
+    <div class="top-actions">
+      <div class="search"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-5-5"/></svg><input placeholder="Search by name, email, or phone…" value="dana"/></div>
+      <button class="btn primary">+ Add client</button>
+    </div>
+  </div>
+
+  <div class="two-col">
+    <div class="card">
+      <div class="card-head"><h2>Results · 4 matches for "dana"</h2><span class="muted" style="font-size:12px">Sorted by most recent visit</span></div>
+      <div class="card-body">
+        <table class="data">
+          <thead><tr><th>Client</th><th>Plan</th><th>Status</th><th>Last visit</th><th>Lifetime</th><th></th></tr></thead>
+          <tbody id="client-results"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-head"><h2>Dana Kim · Client record</h2><button class="btn sm">Edit</button></div>
+      <div class="card-body pad">
+        <div style="display:flex;gap:14px;align-items:center;margin-bottom:16px">
+          <div style="width:48px;height:48px;border-radius:50%;background:var(--p-accent);color:#fff;display:grid;place-items:center;font-weight:700;font-size:18px">DK</div>
+          <div>
+            <div style="font-weight:700;font-size:16px">Dana Kim</div>
+            <div class="muted" style="font-size:12px">Core member · since Feb 2025</div>
+          </div>
+        </div>
+        <div class="divider"></div>
+        <div class="vstack" style="gap:10px;font-size:13px">
+          <div><div class="muted" style="font-size:11px;text-transform:uppercase;letter-spacing:0.08em;font-weight:600">Email</div>dana.kim@email.com</div>
+          <div><div class="muted" style="font-size:11px;text-transform:uppercase;letter-spacing:0.08em;font-weight:600">Phone</div>(951) 555-0142</div>
+          <div><div class="muted" style="font-size:11px;text-transform:uppercase;letter-spacing:0.08em;font-weight:600">Card on file</div>Visa ending 4242 · 12/28</div>
+          <div id="next-billing-field"><div class="muted" style="font-size:11px;text-transform:uppercase;letter-spacing:0.08em;font-weight:600">Next billing</div><span id="next-billing-val"></span></div>
+        </div>
+        <div class="divider"></div>
+        <div class="muted" style="font-size:11px;text-transform:uppercase;letter-spacing:0.08em;font-weight:600;margin-bottom:8px">Upcoming</div>
+        <div class="vstack" style="gap:6px;font-size:13px" id="upcoming-appts"></div>
+        <div class="divider"></div>
+        <div class="muted" style="font-size:11px;text-transform:uppercase;letter-spacing:0.08em;font-weight:600;margin-bottom:8px">Internal notes</div>
+        <div style="font-size:13px;color:var(--p-text-2);font-style:italic">"Prefers front-row bike. Returning from knee injury — avoid heavy lateral work. — Priya, Mar 2026"</div>
+        <button class="btn sm" style="margin-top:10px">+ Add note</button>
+      </div>
+    </div>
+  </div>
+</main></div>
+<script src="staff.js"></script>
+<script>
+// Client search results — last visit offsets: 0, -62, -3, -8
+const clients=[
+  {name:'Dana Kim',      sub:'dana.kim@email.com · (951) 555-0142', plan:'Core',    status:'green', sl:'Active',   lastOffset:0,   lifetime:'$948.00',   highlight:true},
+  {name:'Dana Harper',   sub:'danah@email.com',                      plan:'Drop-in', status:'gray',  sl:'Inactive', lastOffset:-62, lifetime:'$175.00',   highlight:false},
+  {name:'Dana Oyelaran', sub:'d.oye@email.com',                      plan:'Elite',  status:'green', sl:'Active',   lastOffset:-3,  lifetime:'$2,234.00', highlight:false},
+  {name:'Danai Mbeki',   sub:'danai@email.com',                      plan:'Core',   status:'amber', sl:'Past due', lastOffset:-8,  lifetime:'$632.00',   highlight:false},
+];
+const tbody=document.getElementById('client-results');
+clients.forEach(c=>{
+  const lastVisit=c.lastOffset===0?'Today · 2:30 PM':relDate(c.lastOffset,'long');
+  const tr=document.createElement('tr');
+  if(c.highlight) tr.style.background='#FFF7ED';
+  tr.innerHTML=`
+    <td><strong>${c.name}</strong><div class="sub">${c.sub}</div></td>
+    <td>${c.plan}</td>
+    <td><span class="badge ${c.status}"><span class="dot"></span>${c.sl}</span></td>
+    <td>${lastVisit}</td>
+    <td class="num">${c.lifetime}</td>
+    <td><button class="btn sm">${c.highlight?'View →':'View'}</button></td>
+  `;
+  tbody.appendChild(tr);
+});
+
+// Dana Kim client record — dynamic dates
+document.getElementById('next-billing-val').textContent=nextMonthFirst()+' · $79.00';
+
+const upcoming=[
+  {offset:0,  time:'2:30p', svc:'Sample Size · Jordan'},
+  {offset:1,  time:'9:00a', svc:'Baseline · Partners · Marcus'},
+  {offset:3,  time:'6:00a', svc:'Sample Size · Jordan'},
+];
+const upEl=document.getElementById('upcoming-appts');
+upcoming.forEach(u=>{
+  const label=u.offset===0?'Today':relDate(u.offset,'short');
+  const div=document.createElement('div');
+  div.textContent=`${label} ${u.time} · ${u.svc}`;
+  upEl.appendChild(div);
+});
+</script>
+</body></html>

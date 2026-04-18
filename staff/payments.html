@@ -1,0 +1,183 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Payments · Staff</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Montserrat:wght@700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="staff.css"/></head>
+<body class="portal"><div class="portal-shell"><div id="sidebar-mount"></div>
+<main class="main">
+  <div class="topbar">
+    <div><h1>Payments <small>All transactions, disputes, refunds &amp; payouts</small></h1></div>
+  </div>
+
+  <!-- Unified widget -->
+  <div class="widget">
+    <div class="widget-header">
+      <div class="title">Payments <span class="tag">Powered by Stripe</span></div>
+      <div class="controls">
+        <div class="date-range">Apr 1 – Apr 17, 2026 ▾</div>
+        <div class="search" style="min-width:200px"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-5-5"/></svg><input placeholder="Search transactions…"/></div>
+        <button class="btn sm">Export CSV</button>
+      </div>
+    </div>
+
+    <div class="widget-stats">
+      <div class="cell"><div class="lbl">Total volume</div><div class="val">$42,187.00</div><div class="sub tabular">↑ 12% vs. prior period</div></div>
+      <div class="cell"><div class="lbl">Successful</div><div class="val">284</div><div class="sub">97.6% success rate</div></div>
+      <div class="cell"><div class="lbl">Refunds issued</div><div class="val">$842.00</div><div class="sub">7 refunds · 2.0%</div></div>
+      <div class="cell"><div class="lbl">Open disputes</div><div class="val" style="color:var(--p-amber)">2</div><div class="sub" style="color:var(--p-amber)">Response due in 4 days</div></div>
+    </div>
+
+    <div class="tabs" id="pTabs">
+      <button class="tab active" data-tab="transactions">Transactions <span class="muted" style="font-weight:500">· 284</span></button>
+      <button class="tab" data-tab="disputes">Disputes <span class="badge amber" style="margin-left:4px">2</span></button>
+      <button class="tab" data-tab="refunds">Refunds <span class="muted" style="font-weight:500">· 7</span></button>
+      <button class="tab" data-tab="subscriptions">Subscriptions <span class="muted" style="font-weight:500">· 187</span></button>
+      <button class="tab" data-tab="payouts">Payouts</button>
+    </div>
+
+    <div class="widget-scroll">
+      <!-- TRANSACTIONS -->
+      <div class="tab-panel active" id="panel-transactions">
+        <div class="filters-row">
+          <button class="filter-chip active">All</button>
+          <button class="filter-chip">Succeeded</button>
+          <button class="filter-chip">Pending</button>
+          <button class="filter-chip">Failed</button>
+          <button class="filter-chip">Refunded</button>
+        </div>
+        <table class="data">
+          <thead><tr><th>Date</th><th>Client</th><th>Description</th><th>Method</th><th>Status</th><th class="num">Amount</th><th></th></tr></thead>
+          <tbody id="txBody"></tbody>
+        </table>
+      </div>
+
+      <!-- DISPUTES -->
+      <div class="tab-panel" id="panel-disputes">
+        <table class="data">
+          <thead><tr><th>Date</th><th>Client</th><th>Reason</th><th>Status</th><th>Response due</th><th class="num">Amount</th><th></th></tr></thead>
+          <tbody>
+            <tr style="background:#FFF7E6"><td>Apr 14, 2026</td><td>Kai Morales<div class="sub">kai@email.com</div></td><td>Product not received</td><td><span class="badge amber"><span class="dot"></span>Needs response</span></td><td style="color:var(--p-amber);font-weight:600">4 days</td><td class="num">$149.00</td><td><button class="btn sm" onclick="this.closest('tr').nextElementSibling.style.display=this.closest('tr').nextElementSibling.style.display==='none'?'table-row':'none'">Expand</button></td></tr>
+            <tr style="display:none"><td colspan="7" style="padding:0"><div class="row-detail"><div class="grid"><div><div class="k">Dispute ID</div><div class="v mono">dp_1PaX92KJ</div></div><div><div class="k">Client stated reason</div><div class="v">"Signed up for one month, was charged six months. Want them refunded."</div></div><div><div class="k">Original txn</div><div class="v mono">txn_3Nr89m</div></div><div><div class="k">Network</div><div class="v">Visa</div></div></div><div style="margin-top:12px"><div class="k">Submit evidence</div><textarea class="p-field" style="width:100%;min-height:60px;margin-top:6px" placeholder="Upload receipts, booking logs, or member portal screenshots…"></textarea></div><div class="actions"><button class="btn sm primary">Submit evidence</button><button class="btn sm">Accept dispute</button><button class="btn sm">View original transaction</button></div></div></td></tr>
+
+            <tr style="background:#FBE7E7"><td>Apr 11, 2026</td><td>Rafael Velasco<div class="sub">Elite member</div></td><td>Recurring charge disputed</td><td><span class="badge red"><span class="dot"></span>Needs response</span></td><td style="color:var(--p-red);font-weight:600">6 days</td><td class="num">$149.00</td><td><button class="btn sm">Expand</button></td></tr>
+
+            <tr><td>Apr 2, 2026</td><td>Priya Halai</td><td>Duplicate charge</td><td><span class="badge blue"><span class="dot"></span>Under review</span></td><td>Submitted Apr 5</td><td class="num">$95.00</td><td><button class="btn sm">Expand</button></td></tr>
+            <tr><td>Mar 21, 2026</td><td>Wes Ahmadi</td><td>Unrecognized charge</td><td><span class="badge green"><span class="dot"></span>Won</span></td><td>Closed</td><td class="num">$79.00</td><td><button class="btn sm">Expand</button></td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- REFUNDS -->
+      <div class="tab-panel" id="panel-refunds">
+        <div class="filters-row" style="justify-content:space-between">
+          <div style="display:flex;gap:8px">
+            <button class="filter-chip active">All</button>
+            <button class="filter-chip">Full</button>
+            <button class="filter-chip">Partial</button>
+            <button class="filter-chip">Pending</button>
+            <button class="filter-chip">Completed</button>
+            <button class="filter-chip">Failed</button>
+          </div>
+          <button class="btn sm primary">+ Issue new refund</button>
+        </div>
+        <table class="data">
+          <thead><tr><th>Refund date</th><th>Original txn</th><th>Client</th><th>Reason</th><th>Type</th><th>Status</th><th class="num">Original</th><th class="num">Refunded</th></tr></thead>
+          <tbody>
+            <tr><td>Apr 16, 2026</td><td class="mono">Apr 12 · $95.00</td><td>Elena Ruiz</td><td>Canceled appointment</td><td>Full</td><td><span class="badge green"><span class="dot"></span>Completed</span></td><td class="num">$95.00</td><td class="num">$95.00</td></tr>
+            <tr><td>Apr 15, 2026</td><td class="mono">Apr 3 · $800.00</td><td>Theo Park</td><td>Goodwill — unused sessions</td><td>Partial</td><td><span class="badge green"><span class="dot"></span>Completed</span></td><td class="num">$800.00</td><td class="num">$320.00</td></tr>
+            <tr><td>Apr 13, 2026</td><td class="mono">Apr 10 · $25.00</td><td>Mira Okafor</td><td>Class canceled by studio</td><td>Full</td><td><span class="badge green"><span class="dot"></span>Completed</span></td><td class="num">$25.00</td><td class="num">$25.00</td></tr>
+            <tr><td>Apr 10, 2026</td><td class="mono">Apr 1 · $79.00</td><td>Grace Liu</td><td>Membership paused</td><td>Partial</td><td><span class="badge amber"><span class="dot"></span>Pending</span></td><td class="num">$79.00</td><td class="num">$52.00</td></tr>
+            <tr><td>Apr 8, 2026</td><td class="mono">Mar 31 · $60.00</td><td>Vikram Shah</td><td>Scheduling conflict</td><td>Full</td><td><span class="badge green"><span class="dot"></span>Completed</span></td><td class="num">$60.00</td><td class="num">$60.00</td></tr>
+            <tr><td>Apr 4, 2026</td><td class="mono">Mar 22 · $425.00</td><td>Naomi Blake</td><td>Client request</td><td>Partial</td><td><span class="badge red"><span class="dot"></span>Failed</span></td><td class="num">$425.00</td><td class="num">$170.00</td></tr>
+            <tr><td>Apr 1, 2026</td><td class="mono">Mar 14 · $149.00</td><td>Kai Morales</td><td>Billing error</td><td>Full</td><td><span class="badge green"><span class="dot"></span>Completed</span></td><td class="num">$149.00</td><td class="num">$149.00</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- SUBSCRIPTIONS -->
+      <div class="tab-panel" id="panel-subscriptions">
+        <div class="filters-row">
+          <button class="filter-chip active">All</button>
+          <button class="filter-chip">Active</button>
+          <button class="filter-chip">Past due</button>
+          <button class="filter-chip">Paused</button>
+          <button class="filter-chip">Canceled</button>
+        </div>
+        <table class="data">
+          <thead><tr><th>Client</th><th>Plan</th><th class="num">Amount</th><th>Next billing</th><th>Status</th><th></th></tr></thead>
+          <tbody>
+            <tr style="background:#FBE7E7"><td>Rafael Velasco<div class="sub">Since Feb 2024</div></td><td>Elite</td><td class="num">$149.00 / mo</td><td>Apr 18 (retry)</td><td><span class="badge red"><span class="dot"></span>Past due</span></td><td><button class="btn sm primary">Retry charge</button></td></tr>
+            <tr><td>Dana Kim</td><td>Core</td><td class="num">$79.00 / mo</td><td>May 1, 2026</td><td><span class="badge green"><span class="dot"></span>Active</span></td><td><button class="btn sm">Manage</button></td></tr>
+            <tr><td>Theo Park</td><td>Elite</td><td class="num">$149.00 / mo</td><td>May 1, 2026</td><td><span class="badge green"><span class="dot"></span>Active</span></td><td><button class="btn sm">Manage</button></td></tr>
+            <tr><td>Grace Liu</td><td>Core</td><td class="num">$79.00 / mo</td><td>Paused until Jun 1</td><td><span class="badge gray"><span class="dot"></span>Paused</span></td><td><button class="btn sm">Resume</button></td></tr>
+            <tr><td>Wes Ahmadi</td><td>Core</td><td class="num">$79.00 / mo</td><td>May 1, 2026</td><td><span class="badge green"><span class="dot"></span>Active</span></td><td><button class="btn sm">Manage</button></td></tr>
+            <tr><td>Priya Halai</td><td>Recovery add-on</td><td class="num">$49.00 / mo</td><td>May 1, 2026</td><td><span class="badge green"><span class="dot"></span>Active</span></td><td><button class="btn sm">Manage</button></td></tr>
+            <tr><td>Sam Abate</td><td>Core (annual)</td><td class="num">$790.00 / yr</td><td>Apr 4, 2027</td><td><span class="badge green"><span class="dot"></span>Active</span></td><td><button class="btn sm">Manage</button></td></tr>
+            <tr><td>Mia Okonkwo</td><td>Elite</td><td class="num">$149.00 / mo</td><td>—</td><td><span class="badge gray"><span class="dot"></span>Canceled</span></td><td><button class="btn sm">Reactivate</button></td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- PAYOUTS -->
+      <div class="tab-panel" id="panel-payouts">
+        <table class="data">
+          <thead><tr><th>Payout date</th><th>Bank account</th><th>Status</th><th>Transactions</th><th class="num">Amount</th><th></th></tr></thead>
+          <tbody>
+            <tr><td>Apr 16, 2026</td><td>Riverside Comm. Bank ···8821</td><td><span class="badge blue"><span class="dot"></span>In transit</span></td><td>42 txns · Apr 11–15</td><td class="num">$6,148.22</td><td><button class="btn sm">Details</button></td></tr>
+            <tr><td>Apr 9, 2026</td><td>Riverside Comm. Bank ···8821</td><td><span class="badge green"><span class="dot"></span>Paid</span></td><td>51 txns · Apr 4–8</td><td class="num">$7,822.90</td><td><button class="btn sm">Details</button></td></tr>
+            <tr><td>Apr 2, 2026</td><td>Riverside Comm. Bank ···8821</td><td><span class="badge green"><span class="dot"></span>Paid</span></td><td>47 txns · Mar 28–Apr 1</td><td class="num">$7,114.00</td><td><button class="btn sm">Details</button></td></tr>
+            <tr><td>Mar 26, 2026</td><td>Riverside Comm. Bank ···8821</td><td><span class="badge red"><span class="dot"></span>Failed</span></td><td>39 txns · Mar 21–25</td><td class="num">$5,687.10</td><td><button class="btn sm primary">Retry</button></td></tr>
+            <tr><td>Mar 19, 2026</td><td>Riverside Comm. Bank ···8821</td><td><span class="badge green"><span class="dot"></span>Paid</span></td><td>44 txns · Mar 14–18</td><td class="num">$6,492.15</td><td><button class="btn sm">Details</button></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</main></div>
+<script src="staff.js"></script>
+<script>
+// Tabs
+document.querySelectorAll('#pTabs .tab').forEach(t=>{
+  t.addEventListener('click',()=>{
+    document.querySelectorAll('#pTabs .tab').forEach(x=>x.classList.remove('active'));
+    document.querySelectorAll('.tab-panel').forEach(x=>x.classList.remove('active'));
+    t.classList.add('active');
+    document.getElementById('panel-'+t.dataset.tab).classList.add('active');
+  });
+});
+// Hash support for deep links
+const h=location.hash.replace('#','');
+if(h){const b=document.querySelector(`[data-tab="${h}"]`);if(b)b.click();}
+
+// Transactions data
+const TX=[
+  {d:'Apr 17, 2026 · 2:15p',c:'Dana Kim',desc:'Core membership · Apr',m:'Visa ···4242',s:'green',sl:'Succeeded',a:79.00},
+  {d:'Apr 17, 2026 · 11:02a',c:'Sam Abate',desc:'Fitness Assessment',m:'Mastercard ···5511',s:'green',sl:'Succeeded',a:60.00},
+  {d:'Apr 17, 2026 · 9:44a',c:'Mira Okafor',desc:'Drop-in · The Control Group',m:'Visa ···9920',s:'green',sl:'Succeeded',a:25.00},
+  {d:'Apr 17, 2026 · 7:30a',c:'Vikram Shah',desc:'Drop-in · Sample Size',m:'Amex ···1007',s:'amber',sl:'Pending',a:25.00},
+  {d:'Apr 16, 2026 · 8:21p',c:'Elena Ruiz',desc:'N=1 Session · refund',m:'Visa ···3344',s:'gray',sl:'Refunded',a:-95.00},
+  {d:'Apr 16, 2026 · 6:14p',c:'Theo Park',desc:'Elite membership · Apr',m:'Visa ···7712',s:'green',sl:'Succeeded',a:149.00},
+  {d:'Apr 16, 2026 · 3:47p',c:'Rafael Velasco',desc:'Elite membership · Apr (retry)',m:'Visa ···9012',s:'red',sl:'Failed',a:149.00},
+  {d:'Apr 16, 2026 · 10:12a',c:'Naomi Blake',desc:'Drop-in · The Cohort · Deep',m:'Visa ···0821',s:'green',sl:'Succeeded',a:25.00},
+  {d:'Apr 15, 2026 · 7:50p',c:'Wes Ahmadi',desc:'Core membership · Apr',m:'Mastercard ···4409',s:'green',sl:'Succeeded',a:79.00},
+  {d:'Apr 15, 2026 · 2:31p',c:'Grace Liu',desc:'Partial refund · membership pause',m:'Visa ···1120',s:'gray',sl:'Refunded',a:-52.00},
+  {d:'Apr 15, 2026 · 11:30a',c:'Priya Halai',desc:'Recovery add-on · Apr',m:'Visa ···3310',s:'green',sl:'Succeeded',a:49.00},
+  {d:'Apr 14, 2026 · 9:06p',c:'Kai Morales',desc:'Elite membership · charge disputed',m:'Visa ···4580',s:'amber',sl:'Disputed',a:149.00},
+  {d:'Apr 14, 2026 · 4:12p',c:'Dana Oyelaran',desc:'N=1 Session · 10-pack',m:'Visa ···6699',s:'green',sl:'Succeeded',a:800.00},
+  {d:'Apr 14, 2026 · 8:44a',c:'Jules Nakamura',desc:'Drop-in · Baseline · Partners',m:'Visa ···2288',s:'green',sl:'Succeeded',a:25.00},
+];
+const txBody=document.getElementById('txBody');
+TX.forEach((t,i)=>{
+  const row=document.createElement('tr');
+  row.style.cursor='pointer';
+  row.onclick=()=>{const d=document.getElementById('tx-det-'+i);d.style.display=d.style.display==='none'||!d.style.display?'table-row':'none'};
+  row.innerHTML=`<td>${t.d}</td><td>${t.c}</td><td>${t.desc}</td><td class="mono">${t.m}</td><td><span class="badge ${t.s}"><span class="dot"></span>${t.sl}</span></td><td class="num">${t.a<0?'−$'+Math.abs(t.a).toFixed(2):'$'+t.a.toFixed(2)}</td><td>▾</td>`;
+  txBody.appendChild(row);
+  const det=document.createElement('tr');det.id='tx-det-'+i;det.style.display='none';
+  det.innerHTML=`<td colspan="7" style="padding:0"><div class="row-detail"><div class="grid"><div><div class="k">Transaction ID</div><div class="v mono">txn_${(Math.random().toString(36).slice(2,12)).toUpperCase()}</div></div><div><div class="k">Auth code</div><div class="v mono">AUTH-${(Math.random()*900000|0)+100000}</div></div><div><div class="k">Card type</div><div class="v">${t.m.split(' ···')[0]} · Credit</div></div><div><div class="k">Linked appointment</div><div class="v">${t.desc}</div></div></div><div class="actions"><button class="btn sm primary">Issue refund</button><button class="btn sm">Send receipt</button><button class="btn sm">View client</button></div></div></td>`;
+  txBody.appendChild(det);
+});
+</script>
+</body></html>

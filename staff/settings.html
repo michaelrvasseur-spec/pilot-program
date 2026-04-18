@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Settings · Staff</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Montserrat:wght@700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="staff.css"/></head>
+<body class="portal"><div class="portal-shell"><div id="sidebar-mount"></div>
+<main class="main">
+  <div class="topbar"><div><h1>Settings</h1></div></div>
+
+  <div class="two-col">
+    <div class="vstack" style="gap:18px">
+      <div class="card">
+        <div class="card-head"><h2>Business info</h2><button class="btn sm">Edit</button></div>
+        <div class="card-body pad">
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+            <div class="p-field"><label>Business name</label><input value="The Pilot Program" disabled/></div>
+            <div class="p-field"><label>Public email</label><input value="hello@thepilotprogram.fit" disabled/></div>
+            <div class="p-field"><label>Phone</label><input value="(951) 555-0174" disabled/></div>
+            <div class="p-field"><label>Time zone</label><input value="America / Los_Angeles" disabled/></div>
+            <div class="p-field" style="grid-column:1/-1"><label>Address</label><input value="482 Ironworks Ave, Riverside, CA 92501" disabled/></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-head"><h2>Staff accounts</h2><button class="btn sm primary">+ Add staff</button></div>
+        <div class="card-body">
+          <table class="data">
+            <thead><tr><th>Name</th><th>Email</th><th>Role</th><th>Last login</th><th></th></tr></thead>
+            <tbody>
+              <tr><td><strong>Marcus Reid</strong><div class="sub">Founder</div></td><td>marcus@thepilotprogram.fit</td><td><span class="badge blue"><span class="dot"></span>Admin</span></td><td>Today · 8:02 AM</td><td><button class="btn sm">Edit</button></td></tr>
+              <tr><td><strong>Priya Nair</strong></td><td>priya@thepilotprogram.fit</td><td><span class="badge gray"><span class="dot"></span>Trainer</span></td><td>Today · 6:44 AM</td><td><button class="btn sm">Edit</button></td></tr>
+              <tr><td><strong>Jordan Calloway</strong></td><td>jordan@thepilotprogram.fit</td><td><span class="badge gray"><span class="dot"></span>Trainer</span></td><td>Yesterday · 7:12 PM</td><td><button class="btn sm">Edit</button></td></tr>
+              <tr><td><strong>Hana Oduya</strong></td><td>hana@thepilotprogram.fit</td><td><span class="badge amber"><span class="dot"></span>Front desk</span></td><td>Today · 5:58 AM</td><td><button class="btn sm">Edit</button></td></tr>
+              <tr><td><strong>Devon Price</strong></td><td>devon@thepilotprogram.fit</td><td><span class="badge amber"><span class="dot"></span>Front desk</span></td><td>Apr 14, 2026</td><td><button class="btn sm">Edit</button></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-head"><h2>Payment settings</h2></div>
+        <div class="card-body pad">
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+            <div class="p-field"><label>Connected processor</label><input value="Stripe · acct_1PaK892H" disabled/></div>
+            <div class="p-field"><label>Statement descriptor</label><input value="PILOTPGM STUDIO" disabled/></div>
+            <div class="p-field"><label>Payout bank account</label><input value="Riverside Comm. Bank ···8821" disabled/></div>
+            <div class="p-field"><label>Payout schedule</label><input value="Weekly · Fridays" disabled/></div>
+          </div>
+          <button class="btn" style="margin-top:6px">Reconnect processor</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="vstack" style="gap:18px">
+      <div class="card">
+        <div class="card-head"><h2>Notifications</h2></div>
+        <div class="card-body pad">
+          <div class="vstack" style="gap:14px">
+            <label class="hstack" style="justify-content:space-between"><span>Email me on new disputes</span><input type="checkbox" checked></label>
+            <label class="hstack" style="justify-content:space-between"><span>Email me on failed charges</span><input type="checkbox" checked></label>
+            <label class="hstack" style="justify-content:space-between"><span>Email me on new bookings</span><input type="checkbox"></label>
+            <label class="hstack" style="justify-content:space-between"><span>Daily schedule summary (7a)</span><input type="checkbox" checked></label>
+            <label class="hstack" style="justify-content:space-between"><span>SMS for same-day cancellations</span><input type="checkbox" checked></label>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-head"><h2>Session</h2></div>
+        <div class="card-body pad">
+          <div class="vstack" style="gap:8px">
+            <div class="muted" style="font-size:12px">Signed in as Marcus Reid (staff@thepilotprogram.fit)</div>
+            <a href="login.html" class="btn">Sign out</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</main></div>
+<script src="staff.js"></script></body></html>

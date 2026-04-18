@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Clients · Staff</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Montserrat:wght@700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="staff.css"/></head>
+<body class="portal"><div class="portal-shell"><div id="sidebar-mount"></div>
+<main class="main">
+  <div class="topbar">
+    <div><h1>Clients <small>342 total · 187 active memberships</small></h1></div>
+    <div class="top-actions">
+      <div class="search"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-5-5"/></svg><input placeholder="Search by name, email, or phone…" value="dana"/></div>
+      <button class="btn primary">+ Add client</button>
+    </div>
+  </div>
+
+  <div class="two-col">
+    <div class="card">
+      <div class="card-head"><h2>Results · 4 matches for "dana"</h2><span class="muted" style="font-size:12px">Sorted by most recent visit</span></div>
+      <div class="card-body">
+        <table class="data">
+          <thead><tr><th>Client</th><th>Plan</th><th>Status</th><th>Last visit</th><th>Lifetime</th><th></th></tr></thead>
+          <tbody>
+            <tr style="background:#FFF7ED"><td><strong>Dana Kim</strong><div class="sub">dana.kim@email.com · (951) 555-0142</div></td><td>Core</td><td><span class="badge green"><span class="dot"></span>Active</span></td><td>Today · 2:30 PM</td><td class="num">$948.00</td><td><button class="btn sm">View →</button></td></tr>
+            <tr><td><strong>Dana Harper</strong><div class="sub">danah@email.com</div></td><td>Drop-in</td><td><span class="badge gray"><span class="dot"></span>Inactive</span></td><td>Feb 14, 2026</td><td class="num">$175.00</td><td><button class="btn sm">View</button></td></tr>
+            <tr><td><strong>Dana Oyelaran</strong><div class="sub">d.oye@email.com</div></td><td>Elite</td><td><span class="badge green"><span class="dot"></span>Active</span></td><td>Apr 15, 2026</td><td class="num">$2,234.00</td><td><button class="btn sm">View</button></td></tr>
+            <tr><td><strong>Danai Mbeki</strong><div class="sub">danai@email.com</div></td><td>Core</td><td><span class="badge amber"><span class="dot"></span>Past due</span></td><td>Apr 10, 2026</td><td class="num">$632.00</td><td><button class="btn sm">View</button></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-head"><h2>Dana Kim · Client record</h2><button class="btn sm">Edit</button></div>
+      <div class="card-body pad">
+        <div style="display:flex;gap:14px;align-items:center;margin-bottom:16px">
+          <div style="width:48px;height:48px;border-radius:50%;background:var(--p-accent);color:#fff;display:grid;place-items:center;font-weight:700;font-size:18px">DK</div>
+          <div>
+            <div style="font-weight:700;font-size:16px">Dana Kim</div>
+            <div class="muted" style="font-size:12px">Core member · since Feb 2025</div>
+          </div>
+        </div>
+        <div class="divider"></div>
+        <div class="vstack" style="gap:10px;font-size:13px">
+          <div><div class="muted" style="font-size:11px;text-transform:uppercase;letter-spacing:0.08em;font-weight:600">Email</div>dana.kim@email.com</div>
+          <div><div class="muted" style="font-size:11px;text-transform:uppercase;letter-spacing:0.08em;font-weight:600">Phone</div>(951) 555-0142</div>
+          <div><div class="muted" style="font-size:11px;text-transform:uppercase;letter-spacing:0.08em;font-weight:600">Card on file</div>Visa ending 4242 · 12/28</div>
+          <div><div class="muted" style="font-size:11px;text-transform:uppercase;letter-spacing:0.08em;font-weight:600">Next billing</div>May 1, 2026 · $79.00</div>
+        </div>
+        <div class="divider"></div>
+        <div class="muted" style="font-size:11px;text-transform:uppercase;letter-spacing:0.08em;font-weight:600;margin-bottom:8px">Upcoming</div>
+        <div class="vstack" style="gap:6px;font-size:13px">
+          <div>Today 2:30p · Sample Size · Jordan</div>
+          <div>Apr 18 9:00a · Baseline · Partners · Marcus</div>
+          <div>Apr 21 6:00a · Sample Size · Jordan</div>
+        </div>
+        <div class="divider"></div>
+        <div class="muted" style="font-size:11px;text-transform:uppercase;letter-spacing:0.08em;font-weight:600;margin-bottom:8px">Internal notes</div>
+        <div style="font-size:13px;color:var(--p-text-2);font-style:italic">"Prefers front-row bike. Returning from knee injury — avoid heavy lateral work. — Priya, Mar 2026"</div>
+        <button class="btn sm" style="margin-top:10px">+ Add note</button>
+      </div>
+    </div>
+  </div>
+</main></div>
+<script src="staff.js"></script></body></html>

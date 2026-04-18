@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Contact · The Pilot Program</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Montserrat:wght@600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="styles.css"/>
+</head>
+<body>
+<div id="site-nav"></div>
+
+<header class="page-head">
+  <div class="container">
+    <div class="eyebrow">Contact</div>
+    <h1 style="margin-top:16px">Questions? We'll answer them.</h1>
+    <p>Email, call, or stop by. A coach replies to every message within one business day — no autoresponders, no ticket queues.</p>
+  </div>
+</header>
+
+<section>
+  <div class="container">
+    <div class="contact-grid">
+      <form class="form" onsubmit="event.preventDefault();this.querySelector('#sent').style.display='flex'">
+        <div class="eyebrow muted">Send a message</div>
+        <h2 style="margin:10px 0 24px;font-size:30px">Tell us what you're looking for.</h2>
+        <div class="form-row">
+          <div class="field"><label>Name</label><input type="text" placeholder="Your name"/></div>
+          <div class="field"><label>Email</label><input type="email" placeholder="you@email.com"/></div>
+        </div>
+        <div class="field">
+          <label>What's this about? <span class="opt">Optional</span></label>
+          <select>
+            <option>General question</option>
+            <option>Book a studio tour</option>
+            <option>Membership question</option>
+            <option>Personal training inquiry</option>
+            <option>Press / partnerships</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Message</label>
+          <textarea placeholder="Tell us a bit about what you're working toward or what you'd like to know."></textarea>
+        </div>
+        <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap">
+          <button type="submit" class="btn btn-primary">Send message</button>
+          <span class="muted" style="font-size:12px">We reply within one business day.</span>
+        </div>
+        <div id="sent" style="display:none;margin-top:20px;background:var(--warm-white);border:1px solid var(--line);border-left:3px solid var(--success);padding:14px 16px;gap:12px;align-items:center">
+          <strong style="color:var(--success)">Sent.</strong>
+          <span class="muted" style="font-size:14px">Thanks — a coach will be in touch shortly. <em>(Simulation only — no message was actually sent.)</em></span>
+        </div>
+      </form>
+
+      <aside style="display:flex;flex-direction:column;gap:20px">
+        <div class="visit-card">
+          <div class="eyebrow muted">Studio</div>
+          <h3 style="font-size:24px">482 Ironworks Ave</h3>
+          <div>Riverside, CA 92501</div>
+          <div style="display:flex;flex-direction:column;gap:4px;font-size:14px;margin-top:4px">
+            <div><strong>Call:</strong> (951) 555-0174</div>
+            <div><strong>Email:</strong> hello@thepilotprogram.fit</div>
+          </div>
+          <div class="eyebrow muted" style="margin-top:6px">Hours</div>
+          <div class="hours">
+            <div class="row"><span>Mon – Fri</span><span>6:00 AM – 8:00 PM</span></div>
+            <div class="row"><span>Saturday</span><span>7:00 AM – 6:00 PM</span></div>
+            <div class="row"><span>Sunday</span><span>8:00 AM – 2:00 PM</span></div>
+          </div>
+        </div>
+        <div class="map-ph" aria-label="Map placeholder" style="aspect-ratio:4/3"></div>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<div id="site-footer"></div>
+<script src="partials.js"></script>
+</body>
+</html>

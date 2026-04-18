@@ -1,0 +1,272 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Book an Appointment · The Pilot Program</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Montserrat:wght@600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="styles.css"/>
+</head>
+<body>
+<div id="site-nav"></div>
+
+<header class="page-head">
+  <div class="container">
+    <div class="eyebrow">Book an appointment</div>
+    <h1 style="margin-top:16px">Pick a service. Pick a time.</h1>
+    <p>Group classes, 1-on-1 training, recovery sessions, and fitness assessments — all bookable here.</p>
+  </div>
+</header>
+
+<section id="booking">
+  <div class="container">
+    <div id="stepForm" style="display:grid;grid-template-columns:1.35fr 1fr;gap:32px;align-items:start">
+      <div class="form">
+        <div class="eyebrow muted">Step 1 — Service</div>
+        <h3 style="margin:10px 0 18px;font-size:22px">What are you booking?</h3>
+        <div class="service-grid" id="services">
+          <button type="button" class="service-opt selected" data-price="0" data-label="Group Class" data-pay="prepay">
+            <div class="t">Group Class</div><div class="p">$25 · free w/ membership</div>
+          </button>
+          <button type="button" class="service-opt" data-price="95" data-label="N=1 (Personal Training)" data-pay="either">
+            <div class="t">N=1</div><div class="p">Personal training · $95 / 60 min</div>
+          </button>
+          <button type="button" class="service-opt" data-price="30" data-label="Recovery Session" data-pay="prepay">
+            <div class="t">Recovery Session</div><div class="p">$30 / 30 min</div>
+          </button>
+          <button type="button" class="service-opt" data-price="60" data-label="Fitness Assessment" data-pay="prepay">
+            <div class="t">Fitness Assessment</div><div class="p">$60 · one-time</div>
+          </button>
+        </div>
+
+        <div class="eyebrow muted" style="margin-top:36px">Step 2 — Date &amp; time</div>
+        <h3 style="margin:10px 0 18px;font-size:22px">When works for you?</h3>
+
+        <div class="date-grid" id="dates"></div>
+        <div class="time-grid" id="times"></div>
+
+        <div class="eyebrow muted" style="margin-top:36px">Step 3 — Trainer preference <span style="text-transform:none;letter-spacing:0;color:var(--gray);font-weight:500">· optional</span></div>
+        <div class="field" style="margin-top:12px">
+          <select id="trainer">
+            <option>No preference — first available</option>
+            <option>Marcus Reid (Baseline)</option>
+            <option>Priya Nair (The Cohort)</option>
+            <option>Jordan Calloway (The Control Group)</option>
+          </select>
+        </div>
+
+        <div class="eyebrow muted" style="margin-top:36px">Step 4 — Your info</div>
+        <h3 style="margin:10px 0 18px;font-size:22px">A few quick details.</h3>
+        <div class="form-row">
+          <div class="field"><label>Full name</label><input id="fName" type="text" placeholder="Your name" value="Alex Johnson"/></div>
+          <div class="field"><label>Email</label><input id="fEmail" type="email" placeholder="you@email.com" value="alex.johnson@email.com"/></div>
+        </div>
+        <div class="form-row">
+          <div class="field"><label>Phone</label><input id="fPhone" type="tel" placeholder="(951) 555-0100" value="(951) 555-0192"/></div>
+          <div class="field"><label>new to us? <span class="opt">Optional</span></label>
+            <select><option>No, I've trained here before</option><option>Yes, first visit</option></select>
+          </div>
+        </div>
+        <div class="field">
+          <label>Notes for your coach <span class="opt">Optional</span></label>
+          <textarea placeholder="Injuries, goals, anything we should know."></textarea>
+        </div>
+
+        <div class="eyebrow muted" style="margin-top:36px">Step 5 — Payment</div>
+        <h3 style="margin:10px 0 6px;font-size:22px" id="payHeader">Prepay to confirm your booking.</h3>
+        <p class="muted" id="payNote" style="margin-bottom:16px;font-size:14px">You'll be charged now. Cancel up to 4 hours before the session for a full refund.</p>
+
+        <div class="pay-box">
+          <div class="field" style="margin-bottom:0">
+            <label>Card number</label>
+            <div class="card-input-row">
+              <input placeholder="4242 4242 4242 4242" inputmode="numeric" value="4242 4242 4242 4242"/>
+              <input placeholder="MM / YY" inputmode="numeric" value="12/28"/>
+              <input placeholder="CVC" inputmode="numeric" value="424"/>
+            </div>
+          </div>
+          <div class="field" style="margin-bottom:0">
+            <label>Name on card</label>
+            <input placeholder="As it appears on your card" value="Alex Johnson"/>
+          </div>
+          <div class="field" style="margin-bottom:0">
+            <label>ZIP</label>
+            <input placeholder="92501" style="max-width:180px" value="92501"/>
+          </div>
+          <div class="muted" style="font-size:12px;display:flex;gap:8px;align-items:center">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>
+            Demo mode — no real charges will be made.
+          </div>
+        </div>
+
+        <div style="margin-top:28px;display:flex;gap:12px;flex-wrap:wrap">
+          <button type="button" class="btn btn-primary" onclick="confirmBooking()">Confirm &amp; pay</button>
+          <a href="index.html" class="btn btn-ghost">Cancel</a>
+        </div>
+      </div>
+
+      <aside style="position:sticky;top:96px">
+        <div class="pay-summary">
+          <div class="eyebrow" style="color:var(--orange)">Your booking</div>
+          <div style="display:flex;justify-content:space-between;margin-top:6px">
+            <div style="font-family:'Montserrat',sans-serif;font-weight:700;font-size:18px" id="sumService">Group Class</div>
+          </div>
+          <div class="row"><span>Date</span><span id="sumDate">Mon · Apr 20</span></div>
+          <div class="row"><span>Time</span><span id="sumTime">6:00 AM</span></div>
+          <div class="row"><span>Trainer</span><span id="sumTrainer">First available</span></div>
+          <div class="row"><span>Duration</span><span id="sumDuration">50 min</span></div>
+          <div class="total" style="display:flex;justify-content:space-between">
+            <span>Total today</span><span id="sumTotal">$25.00</span>
+          </div>
+          <div class="note" id="sumNote">You will be charged $25 now. Cancel 4 hrs ahead for a full refund.</div>
+        </div>
+      </aside>
+    </div>
+
+    <!-- Confirmation (hidden until booked) -->
+    <div id="confirmScreen" style="display:none">
+      <div class="container-narrow" style="padding:0">
+        <div class="confirm">
+          <div class="check">✓</div>
+          <div class="eyebrow" style="color:var(--orange)">Booking confirmed</div>
+          <h2 style="margin-top:10px">You're on the schedule.</h2>
+          <p class="muted" style="max-width:52ch;margin:14px auto 0">A confirmation was sent to your email. Need to change plans? You can reschedule or cancel from the link in that email up to 4 hours ahead.</p>
+
+          <div class="details">
+            <div class="row"><span class="k">Service</span><span class="v" id="cService">Group Class</span></div>
+            <div class="row"><span class="k">Date</span><span class="v" id="cDate">Mon · Apr 20, 2026</span></div>
+            <div class="row"><span class="k">Time</span><span class="v" id="cTime">6:00 AM</span></div>
+            <div class="row"><span class="k">Trainer</span><span class="v" id="cTrainer">Marcus Reid</span></div>
+            <div class="row"><span class="k">Location</span><span class="v">482 Ironworks Ave</span></div>
+            <div class="row"><span class="k">Amount charged</span><span class="v" id="cTotal">$25.00</span></div>
+            <div class="row"><span class="k">Confirmation #</span><span class="v" id="cNum">TPP-48201</span></div>
+          </div>
+
+          <div style="margin-top:32px;display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
+            <a href="classes.html" class="btn btn-primary">Book another class</a>
+            <a href="index.html" class="btn btn-ghost">Back to home</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div id="site-footer"></div>
+<script src="partials.js"></script>
+<script>
+// Date picker (7 days starting Apr 20, 2026)
+const DOW=['MON','TUE','WED','THU','FRI','SAT','SUN'];
+const START=new Date(2026,3,20);
+const dateEl=document.getElementById('dates');
+for(let i=0;i<7;i++){
+  const d=new Date(START);d.setDate(START.getDate()+i);
+  const btn=document.createElement('button');btn.type='button';btn.className='date-cell'+(i===0?' selected':'');
+  btn.dataset.idx=i;
+  btn.innerHTML=`<div class="dow">${DOW[i]}</div><div class="d">${d.getDate()}</div>`;
+  btn.addEventListener('click',()=>{document.querySelectorAll('.date-cell').forEach(x=>x.classList.remove('selected'));btn.classList.add('selected');updateSummary();});
+  dateEl.appendChild(btn);
+}
+const TIMES=['6:00 AM','7:15 AM','9:30 AM','12:00 PM','3:30 PM','5:30 PM','6:45 PM','7:30 PM'];
+const timesEl=document.getElementById('times');
+TIMES.forEach((t,i)=>{
+  const b=document.createElement('button');b.type='button';b.className='time-cell'+(i===0?' selected':'')+(i===4?' disabled':'');
+  b.textContent=t;
+  if(i!==4) b.addEventListener('click',()=>{document.querySelectorAll('.time-cell').forEach(x=>x.classList.remove('selected'));b.classList.add('selected');updateSummary();});
+  timesEl.appendChild(b);
+});
+
+// Service selection
+document.querySelectorAll('.service-opt').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    document.querySelectorAll('.service-opt').forEach(x=>x.classList.remove('selected'));
+    btn.classList.add('selected');
+    updateSummary();
+  });
+});
+
+function currentService(){
+  const el=document.querySelector('.service-opt.selected');
+  return {label:el.dataset.label,price:+el.dataset.price,pay:el.dataset.pay};
+}
+function selectedDate(){
+  const el=document.querySelector('.date-cell.selected');
+  const idx=+el.dataset.idx;
+  const d=new Date(START);d.setDate(START.getDate()+idx);
+  return d;
+}
+function fmtDate(d){
+  return d.toLocaleDateString('en-US',{weekday:'short',month:'short',day:'numeric'});
+}
+function updateSummary(){
+  const s=currentService();
+  const d=selectedDate();
+  const t=document.querySelector('.time-cell.selected')?.textContent||'6:00 AM';
+  document.getElementById('sumService').textContent=s.label;
+  document.getElementById('sumDate').textContent=fmtDate(d);
+  document.getElementById('sumTime').textContent=t;
+  const dur=s.label==='Fitness Assessment'?'60 min':(s.label==='N=1 (Personal Training)'||s.label==='Personal Training')?'60 min':s.label==='Recovery Session'?'30 min':'50 min';
+  document.getElementById('sumDuration').textContent=dur;
+  const price=s.price;
+  document.getElementById('sumTotal').textContent=price===0?'—':`$${price.toFixed(2)}`;
+  // Payment header + note
+  const hdr=document.getElementById('payHeader');
+  const note=document.getElementById('payNote');
+  const sumNote=document.getElementById('sumNote');
+  if(s.label==='Group Class'){
+    hdr.textContent='Pay $25 now — or free with Core / Elite.';
+    note.textContent='Drop-in classes are prepaid. Members: we\'ll check your plan and skip the charge.';
+    sumNote.textContent='Drop-in $25 charged now · free with membership. Cancel 4 hrs ahead for a refund.';
+  } else if(s.label==='N=1 (Personal Training)'||s.label==='Personal Training'){
+    hdr.textContent='Save card for pay-at-time-of-service.';
+    note.textContent='Your card is saved on file. We charge $95 at the start of your appointment.';
+    sumNote.textContent='Your card will be charged at your appointment.';
+  } else if(s.label==='Recovery Session'){
+    hdr.textContent='Prepay to confirm your booking.';
+    note.textContent='Recovery sessions are prepaid. Elite members: unlimited at no charge.';
+    sumNote.textContent='$30 charged now · unlimited for Elite.';
+  } else {
+    hdr.textContent='Prepay your assessment.';
+    note.textContent='New-client assessments are prepaid to hold the slot.';
+    sumNote.textContent='$60 charged now. Fully refundable up to 24 hrs ahead.';
+  }
+}
+
+function confirmBooking(){
+  const s=currentService();
+  const d=selectedDate();
+  const t=document.querySelector('.time-cell.selected')?.textContent||'6:00 AM';
+  const tr=document.getElementById('trainer').value;
+  document.getElementById('cService').textContent=s.label;
+  document.getElementById('cDate').textContent=d.toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric',year:'numeric'});
+  document.getElementById('cTime').textContent=t;
+  document.getElementById('cTrainer').textContent=tr.replace(/\s*\(.*\)/,'')||'First available';
+  document.getElementById('cTotal').textContent=s.price===0?'$0.00 (member)':`$${s.price.toFixed(2)}`;
+  document.getElementById('cNum').textContent='TPP-'+Math.floor(40000+Math.random()*50000);
+  document.getElementById('stepForm').style.display='none';
+  document.getElementById('confirmScreen').style.display='block';
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+updateSummary();
+// Preselect from query param
+const qs=new URLSearchParams(location.search);
+if(qs.get('service')){
+  const map={assessment:'Fitness Assessment',session:'N=1 (Personal Training)',pack5:'N=1 (Personal Training)',pack10:'N=1 (Personal Training)',recovery:'Recovery Session'};
+  const target=map[qs.get('service')];
+  if(target){
+    document.querySelectorAll('.service-opt').forEach(el=>{
+      if(el.dataset.label===target){el.click()}
+    });
+  }
+}
+if(qs.get('trainer')){
+  const sel=document.getElementById('trainer');
+  const name={marcus:'Marcus',priya:'Priya',jordan:'Jordan'}[qs.get('trainer')];
+  if(name){Array.from(sel.options).forEach(o=>{if(o.textContent.startsWith(name))sel.value=o.value})}
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Classes · The Pilot Program</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Montserrat:wght@600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="styles.css"/>
+</head>
+<body>
+<div id="site-nav"></div>
+
+<header class="page-head">
+  <div class="container">
+    <div class="eyebrow">Weekly schedule</div>
+    <h1 style="margin-top:16px">Coached classes, six days a week.</h1>
+    <p>Capped small (12–16 spots) so every class is actually coached. $25 drop-in · free for Core and Elite members · book up to 7 days out.</p>
+  </div>
+</header>
+
+<section>
+  <div class="container">
+    <div class="filters" id="filters">
+      <button class="chip active" data-filter="all">All classes</button>
+      <button class="chip" data-filter="hiit">The Control Group</button>
+      <button class="chip" data-filter="spin">Sample Size</button>
+      <button class="chip" data-filter="yoga">The Cohort · Yoga</button>
+      <button class="chip" data-filter="strength">Baseline</button>
+      <button class="chip" data-filter="mobility">The Cohort · Mobility</button>
+    </div>
+
+    <div class="schedule">
+      <div class="schedule-head">
+        <div>Mon<span class="date">Apr 20</span></div>
+        <div>Tue<span class="date">Apr 21</span></div>
+        <div>Wed<span class="date">Apr 22</span></div>
+        <div>Thu<span class="date">Apr 23</span></div>
+        <div>Fri<span class="date">Apr 24</span></div>
+        <div>Sat<span class="date">Apr 25</span></div>
+      </div>
+      <div class="schedule-body" id="schedule-body">
+        <!-- populated by JS -->
+      </div>
+    </div>
+
+    <div style="display:flex;justify-content:space-between;margin-top:20px;gap:16px;flex-wrap:wrap">
+      <div class="muted" style="font-size:13px">Showing week of Apr 20 — Apr 25, 2026</div>
+      <div style="display:flex;gap:8px">
+        <button class="btn btn-ghost btn-sm">← Previous week</button>
+        <button class="btn btn-ghost btn-sm">Next week →</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Booking note -->
+<section style="background:var(--warm-white-2);padding:64px 0">
+  <div class="container">
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:24px" class="valueprops">
+      <div class="vp">
+        <div class="num">HOW BOOKING WORKS</div>
+        <h3 style="font-size:18px">Prepaid, no-show-friendly</h3>
+        <p>Classes are prepaid at booking. Cancel up to 4 hours ahead for a full refund or class credit.</p>
+      </div>
+      <div class="vp">
+        <div class="num">MEMBER PRIORITY</div>
+        <h3 style="font-size:18px">Core + Elite book early</h3>
+        <p>Members get a 24-hour head start on each day's schedule before drop-in bookings open to the public.</p>
+      </div>
+      <div class="vp">
+        <div class="num">PAYMENT</div>
+        <h3 style="font-size:18px">$25 drop-in · free for members</h3>
+        <p>Pay per class, or unlock unlimited access with a Core or Elite membership. No initiation fees.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div id="site-footer"></div>
+<script src="partials.js"></script>
+<script>
+// Seed schedule
+const SCHEDULE = {
+  mon:[
+    {t:'6:00a',n:'Baseline',tr:'Marcus',d:50,spots:4,type:'strength'},
+    {t:'7:15a',n:'The Control Group',tr:'Jordan',d:45,spots:2,type:'hiit'},
+    {t:'9:30a',n:'The Cohort',tr:'Priya',d:40,spots:8,type:'mobility'},
+    {t:'12:00p',n:'Sample Size · Power Zones',tr:'Jordan',d:45,spots:0,type:'spin'},
+    {t:'5:30p',n:'Baseline · Barbell Club',tr:'Marcus',d:60,spots:6,type:'strength'},
+    {t:'6:45p',n:'The Control Group · Express',tr:'Jordan',d:30,spots:3,type:'hiit'},
+  ],
+  tue:[
+    {t:'6:00a',n:'Sample Size',tr:'Jordan',d:45,spots:7,type:'spin'},
+    {t:'7:15a',n:'The Cohort · Reset',tr:'Priya',d:50,spots:9,type:'yoga'},
+    {t:'9:30a',n:'Baseline · Accessory',tr:'Marcus',d:50,spots:5,type:'strength'},
+    {t:'12:00p',n:'The Cohort · Midday',tr:'Priya',d:30,spots:10,type:'mobility'},
+    {t:'5:30p',n:'The Control Group',tr:'Jordan',d:45,spots:1,type:'hiit'},
+  ],
+  wed:[
+    {t:'6:00a',n:'Baseline',tr:'Marcus',d:50,spots:6,type:'strength'},
+    {t:'7:15a',n:'Sample Size · Climb',tr:'Jordan',d:45,spots:4,type:'spin'},
+    {t:'9:30a',n:'The Cohort · Slow',tr:'Priya',d:50,spots:7,type:'yoga'},
+    {t:'12:00p',n:'The Control Group · Midday',tr:'Jordan',d:30,spots:8,type:'hiit'},
+    {t:'5:30p',n:'Baseline · Powerlifting',tr:'Marcus',d:75,spots:3,type:'strength'},
+    {t:'7:00p',n:'The Cohort · Deep',tr:'Priya',d:40,spots:10,type:'mobility'},
+  ],
+  thu:[
+    {t:'6:00a',n:'The Control Group',tr:'Jordan',d:45,spots:5,type:'hiit'},
+    {t:'7:15a',n:'Baseline · Accessory',tr:'Marcus',d:50,spots:6,type:'strength'},
+    {t:'9:30a',n:'Sample Size · Power Zones',tr:'Jordan',d:45,spots:8,type:'spin'},
+    {t:'5:30p',n:'The Cohort · Flow',tr:'Priya',d:50,spots:5,type:'yoga'},
+    {t:'6:45p',n:'Baseline · Club',tr:'Marcus',d:60,spots:2,type:'strength'},
+  ],
+  fri:[
+    {t:'6:00a',n:'Baseline',tr:'Marcus',d:50,spots:7,type:'strength'},
+    {t:'7:15a',n:'Sample Size',tr:'Jordan',d:45,spots:0,type:'spin'},
+    {t:'9:30a',n:'The Cohort',tr:'Priya',d:40,spots:9,type:'mobility'},
+    {t:'12:00p',n:'The Control Group · Express',tr:'Jordan',d:30,spots:4,type:'hiit'},
+    {t:'5:30p',n:'Baseline · Barbell Club',tr:'Marcus',d:60,spots:3,type:'strength'},
+  ],
+  sat:[
+    {t:'7:30a',n:'The Control Group · Long',tr:'Jordan',d:60,spots:5,type:'hiit'},
+    {t:'9:00a',n:'Baseline · Partners',tr:'Marcus',d:60,spots:2,type:'strength'},
+    {t:'10:30a',n:'The Cohort · Open',tr:'Priya',d:60,spots:8,type:'yoga'},
+    {t:'12:00p',n:'The Cohort · Deep',tr:'Priya',d:50,spots:10,type:'mobility'},
+  ],
+};
+const DAYS = ['mon','tue','wed','thu','fri','sat'];
+const body = document.getElementById('schedule-body');
+function render(filter='all'){
+  body.innerHTML = DAYS.map(d=>{
+    const items = SCHEDULE[d].filter(c=>filter==='all'||c.type===filter);
+    return `<div class="schedule-col" data-day="${d}">
+      ${items.map(c=>{
+        const spotsCls = c.spots===0?'full':c.spots<=2?'low':'';
+        const spotsTxt = c.spots===0?'Waitlist only':`${c.spots} spot${c.spots===1?'':'s'} left`;
+        return `<div class="class-slot type-${c.type}" onclick="window.location='book.html'" role="button" tabindex="0">
+          <div class="time">${c.t} · ${c.d} min</div>
+          <div class="name">${c.n}</div>
+          <div class="trainer">with ${c.tr}</div>
+          <div class="spots ${spotsCls}">${spotsTxt}</div>
+        </div>`;
+      }).join('') || `<div style="color:var(--gray);font-size:12px;padding:14px 6px;text-align:center">—</div>`}
+    </div>`;
+  }).join('');
+}
+render();
+document.querySelectorAll('#filters .chip').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    document.querySelectorAll('#filters .chip').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    render(btn.dataset.filter);
+  });
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Memberships & Pricing · The Pilot Program</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Montserrat:wght@600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="styles.css"/>
+</head>
+<body>
+<div id="site-nav"></div>
+
+<header class="page-head">
+  <div class="container">
+    <div class="eyebrow">Memberships</div>
+    <h1 style="margin-top:16px">Clear pricing. Cancel any time.</h1>
+    <p>No initiation fees, no annual contracts, no surprise renewal clauses. Pick the plan that matches how you actually train — and change it from your member portal whenever that changes.</p>
+  </div>
+</header>
+
+<section>
+  <div class="container">
+    <div style="display:flex;justify-content:center;margin-bottom:40px">
+      <div style="display:inline-flex;border:1px solid var(--line);background:#fff" role="tablist">
+        <button class="chip active" id="billMonthly" style="border:0;padding:12px 22px">Monthly</button>
+        <button class="chip" id="billAnnual" style="border:0;padding:12px 22px">Annual · save 2 months</button>
+      </div>
+    </div>
+
+    <div class="mem-grid">
+      <div class="mem-card">
+        <div>
+          <h3>Drop-In</h3>
+          <div class="desc">Pay as you go. Zero commitment.</div>
+        </div>
+        <div class="price"><span class="big">$25</span><span class="unit">/ class</span></div>
+        <ul>
+          <li>Access to all group classes</li>
+          <li>Book up to 48 hours in advance</li>
+          <li>No monthly billing, no auto-renew</li>
+          <li>One guest pass per quarter</li>
+        </ul>
+        <a href="book.html" class="btn btn-ghost btn-block">Book a class</a>
+        <div class="muted" style="font-size:12px">Charged per booking. Cancel 4 hrs ahead for a refund.</div>
+      </div>
+
+      <div class="mem-card featured">
+        <span class="tag">Most popular</span>
+        <div>
+          <h3>Core</h3>
+          <div class="desc">Unlimited classes for the regular.</div>
+        </div>
+        <div class="price">
+          <span class="big" data-monthly="$79" data-annual="$66">$79</span>
+          <span class="unit" data-monthly="/ month" data-annual="/ month billed annually">/ month</span>
+        </div>
+        <ul>
+          <li>Unlimited group classes</li>
+          <li>24-hour priority booking window</li>
+          <li>10% off personal training</li>
+          <li>Two guest passes per month</li>
+          <li>Cancel any time</li>
+        </ul>
+        <a href="book.html?plan=core" class="btn btn-primary btn-block">Start membership</a>
+        <div style="color:rgba(255,255,255,0.6);font-size:12px" data-monthly="Billed on the 1st of each month." data-annual="$790 billed annually — saves $158.">Billed on the 1st of each month.</div>
+      </div>
+
+      <div class="mem-card">
+        <div>
+          <h3>Elite</h3>
+          <div class="desc">Classes, coaching, recovery — all in.</div>
+        </div>
+        <div class="price">
+          <span class="big" data-monthly="$149" data-annual="$124">$149</span>
+          <span class="unit">/ month</span>
+        </div>
+        <ul>
+          <li>Everything in Core</li>
+          <li>2 personal training sessions / month</li>
+          <li>Unlimited recovery add-ons</li>
+          <li>Monthly nutrition check-in</li>
+          <li>Four guest passes per month</li>
+        </ul>
+        <a href="book.html?plan=elite" class="btn btn-dark btn-block">Start membership</a>
+        <div class="muted" style="font-size:12px" data-monthly="Billed on the 1st of each month." data-annual="$1,490 billed annually — saves $298.">Billed on the 1st of each month.</div>
+      </div>
+    </div>
+
+    <!-- Add-on -->
+    <div style="background:var(--charcoal);color:#fff;padding:36px;margin-top:28px;display:flex;justify-content:space-between;align-items:center;gap:24px;flex-wrap:wrap">
+      <div style="max-width:58ch">
+        <div class="eyebrow" style="color:var(--orange)">Optional add-on</div>
+        <h3 style="color:#fff;margin-top:10px">Recovery subscription — $49 / month</h3>
+        <p style="color:rgba(255,255,255,0.72);margin-top:8px">Weekly 30-minute recovery &amp; stretch session with a coach. Compression boots, sauna, and percussive work included. Stack with any plan.</p>
+      </div>
+      <a href="book.html?addon=recovery" class="btn btn-primary">Add recovery</a>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section style="background:var(--warm-white-2)">
+  <div class="container-narrow">
+    <div class="eyebrow muted">Frequently asked</div>
+    <h2 style="margin-top:12px;margin-bottom:32px">The honest answers.</h2>
+    <div class="faq">
+      <details open>
+        <summary>Can I cancel my membership at any time?</summary>
+        <p>Yes. Cancel from your member portal before the next billing date and you won't be charged again. No cancellation fees, no exit interviews, no phone trees.</p>
+      </details>
+      <details>
+        <summary>Can I pause my membership?</summary>
+        <p>You can pause a monthly membership for up to 60 days per calendar year — travel, injury, life. Annual plans can be paused for up to 90 days. Your billing pauses with it.</p>
+      </details>
+      <details>
+        <summary>When am I billed?</summary>
+        <p>Monthly memberships bill on the 1st of each month. Annual plans bill on the anniversary of your signup date. Every charge shows in your portal the moment it runs.</p>
+      </details>
+      <details>
+        <summary>Do you offer family or household plans?</summary>
+        <p>Yes — a second household member joins Core or Elite at 20% off. We verify with a shared address once, then nothing else changes. Ask a coach at the front desk.</p>
+      </details>
+      <details>
+        <summary>What happens if I have to miss a prepaid personal-training session?</summary>
+        <p>Cancel at least 12 hours ahead and the session returns to your pack. Same-day cancellations count as used, with one grace exception per quarter.</p>
+      </details>
+      <details>
+        <summary>Do memberships auto-renew?</summary>
+        <p>Monthly plans continue month-to-month until canceled. Annual plans auto-renew at the anniversary — we email a reminder 30 days out so you can opt out cleanly.</p>
+      </details>
+    </div>
+  </div>
+</section>
+
+<div id="site-footer"></div>
+<script src="partials.js"></script>
+<script>
+const m=document.getElementById('billMonthly');
+const a=document.getElementById('billAnnual');
+function setBilling(annual){
+  m.classList.toggle('active',!annual);
+  a.classList.toggle('active',annual);
+  document.querySelectorAll('[data-monthly]').forEach(el=>{
+    el.textContent = annual ? el.dataset.annual : el.dataset.monthly;
+  });
+}
+m.addEventListener('click',()=>setBilling(false));
+a.addEventListener('click',()=>setBilling(true));
+</script>
+</body>
+</html>

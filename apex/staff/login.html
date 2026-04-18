@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Staff Login · The Pilot Program</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Montserrat:wght@700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="staff.css"/>
+</head>
+<body class="login-body">
+<div class="login-card">
+  <div class="brand">
+    <div class="brand-mark">P</div>
+    <div>
+      <div style="font-family:'Montserrat',sans-serif;font-weight:800;font-size:15px;letter-spacing:0.02em">THE · PILOT · PROGRAM</div>
+      <div style="color:var(--p-text-3);font-size:11px;letter-spacing:0.1em;text-transform:uppercase">Staff Portal</div>
+    </div>
+  </div>
+  <h1>Sign in</h1>
+  <div class="sub">Welcome back. Use your Pilot Program staff credentials.</div>
+
+  <form id="loginForm" onsubmit="event.preventDefault();submitLogin()">
+    <div class="p-field">
+      <label>Email</label>
+      <input id="em" type="text" autocomplete="off"/>
+    </div>
+    <div class="p-field">
+      <label>Password</label>
+      <input id="pw" type="password" autocomplete="off"/>
+    </div>
+    <button class="btn primary" type="submit" style="width:100%;justify-content:center;padding:11px 14px;font-size:14px" id="submitBtn">Sign in</button>
+    <div style="display:flex;justify-content:space-between;margin-top:14px;font-size:12px">
+      <a href="#" style="color:var(--p-text-2);text-decoration:none">Forgot password?</a>
+      <a href="../index.html" style="color:var(--p-text-2);text-decoration:none">← Back to site</a>
+    </div>
+  </form>
+
+  <div class="demo-note">Demo credentials have been pre-filled for testing purposes.</div>
+</div>
+
+<script>
+const EMAIL='staff@thepilotprogram.fit';
+const PW='apexstaff2024';
+const em=document.getElementById('em');
+const pw=document.getElementById('pw');
+const btn=document.getElementById('submitBtn');
+
+function sleep(ms){return new Promise(r=>setTimeout(r,ms));}
+
+async function typeInto(el,str,per=55){
+  el.focus();
+  for(const ch of str){
+    el.value+=ch;
+    await sleep(per+Math.floor(Math.random()*30)-15);
+  }
+}
+
+async function run(){
+  await sleep(500);
+  await typeInto(em,EMAIL,45);
+  await sleep(250);
+  pw.focus();
+  await typeInto(pw,PW,60);
+  await sleep(1000);
+  btn.textContent='Signing in…';
+  btn.disabled=true;
+  await sleep(500);
+  submitLogin();
+}
+
+function submitLogin(){
+  location.href='dashboard.html';
+}
+
+run();
+</script>
+</body>
+</html>

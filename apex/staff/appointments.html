@@ -1,0 +1,382 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Appointments · The Pilot Program Staff</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Montserrat:wght@700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="staff.css"/>
+</head>
+<body class="portal">
+<div class="portal-shell">
+<div id="sidebar-mount"></div>
+<main class="main">
+  <div class="topbar">
+    <div><h1>Appointments <small>All services, all trainers</small></h1></div>
+    <div class="top-actions">
+      <div class="search"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-5-5"/></svg><input placeholder="Search client, trainer, note…"/></div>
+      <button class="btn primary" onclick="openNewApptModal()">+ New appointment</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="filters-row">
+      <span class="muted" style="font-size:12px;align-self:center">Date</span>
+      <div class="date-range" id="date-range-label">…</div>
+      <span class="muted" style="font-size:12px;align-self:center;margin-left:8px">Trainer</span>
+      <button class="filter-chip active">All</button>
+      <button class="filter-chip">Marcus</button>
+      <button class="filter-chip">Priya</button>
+      <button class="filter-chip">Jordan</button>
+      <span class="muted" style="font-size:12px;align-self:center;margin-left:8px">Service</span>
+      <button class="filter-chip active">All</button>
+      <button class="filter-chip">Group Class</button>
+      <button class="filter-chip">1-on-1</button>
+      <button class="filter-chip">Recovery</button>
+      <button class="filter-chip">Assessment</button>
+      <span class="muted" style="font-size:12px;align-self:center;margin-left:8px">Payment</span>
+      <button class="filter-chip active">All</button>
+      <button class="filter-chip">Prepaid</button>
+      <button class="filter-chip">Pay at service</button>
+      <button class="filter-chip">Subscription</button>
+      <button class="filter-chip">Unpaid</button>
+    </div>
+    <div class="card-body">
+      <table class="data" id="apptTable">
+        <thead>
+          <tr>
+            <th>Date &amp; time</th>
+            <th>Client</th>
+            <th>Service</th>
+            <th>Trainer</th>
+            <th>Duration</th>
+            <th>Payment</th>
+            <th class="num">Amount</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody id="apptBody"></tbody>
+      </table>
+      <div style="display:flex;justify-content:space-between;padding:14px 18px;border-top:1px solid var(--p-border);font-size:12px;color:var(--p-text-2)">
+        <div>Showing 1–12 of 147 appointments</div>
+        <div class="hstack" style="gap:4px">
+          <button class="btn sm">← Prev</button>
+          <button class="btn sm">Next →</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+</div>
+
+<!-- New Appointment Modal -->
+<div id="newApptModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.4);place-items:center;z-index:100;padding:20px">
+  <div style="background:#fff;border-radius:10px;max-width:600px;width:100%;max-height:90vh;overflow:auto">
+    <div style="padding:18px 22px;border-bottom:1px solid var(--p-border);display:flex;justify-content:space-between;align-items:center">
+      <h2>New appointment</h2>
+      <button class="btn sm" onclick="closeApptModal()">Close</button>
+    </div>
+    <div style="padding:22px">
+      <div class="muted" style="font-size:11px;letter-spacing:0.1em;text-transform:uppercase;font-weight:600;margin-bottom:10px">Step 1 · Client</div>
+      <div class="p-field"><label>Search or create client</label><input placeholder="Type name, email, or phone…" value="Dana Kim"/></div>
+
+      <div class="muted" style="font-size:11px;letter-spacing:0.1em;text-transform:uppercase;font-weight:600;margin:16px 0 10px">Step 2 · Service &amp; scheduling</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+        <div class="p-field"><label>Service</label>
+          <select id="apptService" onchange="updateAmount()">
+            <option value="group" data-price="25.00">Group Class — Sample Size</option>
+            <option value="pt" data-price="95.00">1-on-1 Personal Training</option>
+            <option value="rec" data-price="75.00">Recovery Session</option>
+            <option value="ast" data-price="60.00">Fitness Assessment</option>
+          </select>
+        </div>
+        <div class="p-field"><label>Trainer</label>
+          <select><option>Jordan Calloway</option><option>Marcus Reid</option><option>Priya Nair</option></select>
+        </div>
+        <div class="p-field"><label>Date</label><input id="apptDate" type="text"/></div>
+        <div class="p-field"><label>Time</label><input type="text" value="6:00 AM"/></div>
+      </div>
+
+      <div class="muted" style="font-size:11px;letter-spacing:0.1em;text-transform:uppercase;font-weight:600;margin:16px 0 10px">Step 3 · Payment</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+        <div class="p-field"><label>Method</label>
+          <select id="apptMethod" onchange="updateAmount()">
+            <option value="member">Apply Core membership (free)</option>
+            <option value="prepay">Prepay now — card on file</option>
+            <option value="atservice">Charge at time of service</option>
+            <option value="sub">Subscription (Elite)</option>
+          </select>
+        </div>
+        <div class="p-field"><label>Amount</label><input id="apptAmountInput" disabled/></div>
+      </div>
+
+      <!-- Decline error -->
+      <div id="decline-error" style="display:none;margin-top:14px;background:#FEF2F2;border:1px solid #FECACA;border-radius:6px;padding:12px 14px;font-size:13px">
+        <div style="font-weight:600;color:var(--p-red);margin-bottom:6px">Card declined</div>
+        <div style="color:var(--p-text-2);margin-bottom:10px">Your card on file (Visa ···4242) was declined. Please try a different card or charge at time of service.</div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap">
+          <button class="btn sm primary" id="try-card-btn" onclick="showAltCardForm()">Try a different card</button>
+          <button class="btn sm" onclick="switchToAtService()">Charge at time of service instead</button>
+        </div>
+        <div id="alt-card-form" style="display:none;margin-top:12px;padding-top:12px;border-top:1px solid #FECACA">
+          <div style="font-size:12px;font-weight:600;color:var(--p-text-2);margin-bottom:8px;text-transform:uppercase;letter-spacing:0.08em">New card</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+            <div class="p-field" style="grid-column:1/-1"><label style="font-size:11px">Card number</label><input placeholder="1234 5678 9012 3456"/></div>
+            <div class="p-field"><label style="font-size:11px">Expiry</label><input placeholder="MM/YY"/></div>
+            <div class="p-field"><label style="font-size:11px">CVC</label><input placeholder="123"/></div>
+          </div>
+          <button class="btn sm primary" id="retry-card-btn" style="margin-top:8px" onclick="retryWithNewCard()">Retry charge</button>
+        </div>
+      </div>
+
+      <div class="muted" style="font-size:11px;letter-spacing:0.1em;text-transform:uppercase;font-weight:600;margin:16px 0 10px">Step 4 · Confirm</div>
+      <div style="background:var(--p-bg);padding:14px;border-radius:6px;font-size:13px;margin-bottom:16px">
+        Book <strong>Dana Kim</strong> into <strong>Sample Size</strong> with <strong>Jordan</strong> on <strong id="confirm-date"></strong> at <strong>6:00 AM</strong> · <strong>member included</strong>.
+      </div>
+      <div class="hstack" style="justify-content:flex-end">
+        <button class="btn" onclick="closeApptModal()">Cancel</button>
+        <button class="btn primary" id="modal-save-btn" onclick="saveAppt()">Save appointment</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Toast -->
+<div id="pp-toast" style="display:none;position:fixed;bottom:24px;right:24px;background:#1C7C54;color:#fff;padding:12px 18px;border-radius:6px;font-size:13px;font-weight:500;z-index:200;box-shadow:0 4px 12px rgba(0,0,0,0.15)"></div>
+
+<script src="staff.js"></script>
+<script>
+(function(){
+  const d=new Date();
+  document.getElementById('date-range-label').textContent=relDate(-7,'short')+' – '+relDate(1,'short')+', '+d.getFullYear()+' ▾';
+  document.getElementById('apptDate').value=relDate(3,'long');
+  document.getElementById('confirm-date').textContent=relDate(3,'short');
+})();
+
+const APPTS=[
+  {offset:0, time:'2:30p', c:'Dana Kim',      cs:'Core member',  s:'Sample Size',               sg:'group',t:'Jordan', du:'45 min',p:{k:'green',l:'Prepaid'},      a:'$0.00',  notes:'Member auto-applied. Prefers front-row bike.'},
+  {offset:0, time:'3:00p', c:'Rafael Velasco',cs:'Elite member', s:'N=1 Session',               sg:'pt',   t:'Marcus', du:'60 min',p:{k:'blue', l:'Subscription'}, a:'$0.00',  notes:'Session 2 of 2 included this month.'},
+  {offset:0, time:'3:30p', c:'Sam Abate',     cs:'New client',   s:'Fitness Assessment',        sg:'ast',  t:'Priya',  du:'60 min',p:{k:'green',l:'Prepaid'},      a:'$60.00', notes:'New client — intake forms completed.'},
+  {offset:0, time:'4:15p', c:'Mira Okafor',   cs:'Drop-in',      s:'The Control Group',         sg:'group',t:'Jordan', du:'45 min',p:{k:'amber',l:'Pay at service'},a:'$25.00', notes:'Card on file; charge at check-in.'},
+  {offset:0, time:'5:00p', c:'Theo Park',     cs:'Elite member', s:'Recovery Session',          sg:'rec',  t:'Priya',  du:'30 min',p:{k:'blue', l:'Subscription'}, a:'$0.00',  notes:''},
+  {offset:0, time:'5:30p', c:'Grace Liu',     cs:'Core member',  s:'Baseline · Barbell Club',   sg:'group',t:'Marcus', du:'60 min',p:{k:'green',l:'Prepaid'},      a:'$0.00',  notes:''},
+  {offset:0, time:'6:00p', c:'Elena Ruiz',    cs:'New client',   s:'N=1 Session',               sg:'pt',   t:'Marcus', du:'60 min',p:{k:'red',  l:'Unpaid'},       a:'$95.00', notes:'No card on file — collect at check-in.'},
+  {offset:0, time:'6:45p', c:'Wes Ahmadi',    cs:'Core member',  s:'The Control Group · Express',sg:'group',t:'Jordan',du:'30 min',p:{k:'green',l:'Prepaid'},      a:'$0.00',  notes:''},
+  {offset:0, time:'7:15p', c:'Naomi Blake',   cs:'Drop-in',      s:'The Cohort · Deep',         sg:'group',t:'Priya',  du:'40 min',p:{k:'green',l:'Prepaid'},      a:'$25.00', notes:''},
+  {offset:1, time:'7:30a', c:'Vikram Shah',   cs:'Drop-in',      s:'Sample Size · Power Zones', sg:'group',t:'Jordan', du:'45 min',p:{k:'amber',l:'Pay at service'},a:'$25.00', notes:''},
+  {offset:1, time:'9:00a', c:'Dana Kim',      cs:'Core member',  s:'Baseline · Partners',       sg:'group',t:'Marcus', du:'60 min',p:{k:'green',l:'Prepaid'},      a:'$0.00',  notes:''},
+  {offset:3, time:'6:00a', c:'Rafael Velasco',cs:'Elite member', s:'The Cohort · Open',         sg:'group',t:'Priya',  du:'60 min',p:{k:'blue', l:'Subscription'}, a:'$0.00',  notes:''},
+];
+
+const tbody=document.getElementById('apptBody');
+APPTS.forEach((a,i)=>{
+  const dateLabel=relDate(a.offset,'short')+' · '+a.time;
+  const needsCharge=a.p.l==='Pay at service'||a.p.l==='Unpaid';
+  const chargeTpl=needsCharge?`<button class="btn sm primary" id="charge-btn-${i}" onclick="initiateCharge(${i},'${a.a}')">Charge client</button>`:'';
+
+  const row=document.createElement('tr');
+  row.id='appt-row-'+i;
+  row.innerHTML=`
+    <td>${dateLabel}</td>
+    <td id="appt-client-${i}"><strong>${a.c}</strong><div class="sub">${a.cs}</div></td>
+    <td>${a.s}</td>
+    <td>${a.t}</td>
+    <td>${a.du}</td>
+    <td><span class="badge ${a.p.k}" id="appt-badge-${i}"><span class="dot"></span>${a.p.l}</span></td>
+    <td class="num" id="appt-amt-${i}">${a.a}</td>
+    <td><button class="btn sm" onclick="toggleRow(${i})">▾</button></td>
+  `;
+  tbody.appendChild(row);
+
+  const det=document.createElement('tr');
+  det.id='det-'+i;
+  det.style.display='none';
+  det.innerHTML=`<td colspan="8" style="padding:0;background:#F4F5F7">
+    <div class="row-detail">
+      <div class="grid">
+        <div><div class="k">Client contact</div><div class="v">${a.c.toLowerCase().replace(' ','.')+'@email.com'}</div></div>
+        <div><div class="k">Duration</div><div class="v">${a.du}</div></div>
+        <div><div class="k">Location</div><div class="v">Studio floor · ${a.sg==='rec'?'Recovery room':a.sg==='pt'?'PT zone':'Main floor'}</div></div>
+        <div><div class="k">Booked via</div><div class="v">${a.cs==='New client'?'Web booking':'Member portal'}</div></div>
+      </div>
+      <div style="margin-top:12px"><div class="k">Notes</div><div class="v" style="font-size:13px">${a.notes||'—'}</div></div>
+      <div class="actions" id="appt-actions-${i}">
+        <button class="btn sm">Edit</button>
+        <button class="btn sm">Reschedule</button>
+        ${chargeTpl}
+        <button class="btn sm">Mark completed</button>
+        <button class="btn sm" id="noshow-btn-${i}" onclick="logNoShow(${i})">Log no-show</button>
+        <button class="btn sm">Add note</button>
+        <button class="btn sm" style="color:var(--p-red);border-color:#F2BFBF">Cancel + refund</button>
+      </div>
+      <div id="charge-confirm-${i}" style="display:none;margin-top:10px;padding:10px 12px;background:#EFF6FF;border-radius:6px;border:1px solid #BFDBFE;font-size:13px">
+        Charge <strong>${a.a}</strong> to Visa ···4242?
+        <div class="hstack" style="gap:8px;margin-top:8px">
+          <button class="btn sm primary" onclick="confirmCharge(${i},'${a.a}')">Confirm charge</button>
+          <button class="btn sm" onclick="cancelCharge(${i})">Cancel</button>
+        </div>
+      </div>
+    </div>
+  </td>`;
+  tbody.appendChild(det);
+});
+
+function toggleRow(i){
+  const r=document.getElementById('det-'+i);
+  r.style.display=(r.style.display===''||r.style.display==='none')?'table-row':'none';
+}
+
+function initiateCharge(i,amount){
+  const cb=document.getElementById('charge-btn-'+i);
+  if(cb) cb.style.display='none';
+  document.getElementById('charge-confirm-'+i).style.display='block';
+}
+
+function cancelCharge(i){
+  document.getElementById('charge-confirm-'+i).style.display='none';
+  const cb=document.getElementById('charge-btn-'+i);
+  if(cb) cb.style.display='';
+}
+
+function confirmCharge(i,amount){
+  const now=new Date();
+  const hh=now.getHours()%12||12;
+  const mm=String(now.getMinutes()).padStart(2,'0');
+  const ampm=now.getHours()>=12?'PM':'AM';
+  const timeStr=hh+':'+mm+' '+ampm;
+
+  const badge=document.getElementById('appt-badge-'+i);
+  badge.className='badge green';
+  badge.innerHTML='<span class="dot"></span>Charged';
+
+  const clientCell=document.getElementById('appt-client-'+i);
+  const sub=clientCell.querySelector('.sub');
+  if(sub) sub.textContent='Charged '+timeStr;
+
+  document.getElementById('charge-confirm-'+i).style.display='none';
+  document.getElementById('appt-actions-'+i).querySelectorAll('.btn').forEach(b=>b.disabled=true);
+
+  sessionStorage.setItem('pp_appt_charged_'+i,JSON.stringify({time:timeStr,amount:amount}));
+  showToast('Payment succeeded · '+amount+' charged to Visa ···4242');
+}
+
+function logNoShow(i){
+  const badge=document.getElementById('appt-badge-'+i);
+  badge.className='badge gray';
+  badge.innerHTML='<span class="dot"></span>No-show';
+
+  const clientCell=document.getElementById('appt-client-'+i);
+  const sub=clientCell.querySelector('.sub');
+  if(sub) sub.textContent='No-show · '+relDate(APPTS[i].offset,'short');
+
+  document.getElementById('appt-actions-'+i).querySelectorAll('.btn').forEach(b=>b.disabled=true);
+  const cf=document.getElementById('charge-confirm-'+i);
+  if(cf) cf.style.display='none';
+
+  sessionStorage.setItem('pp_appt_noshow_'+i,'1');
+}
+
+function restoreState(){
+  APPTS.forEach((a,i)=>{
+    const charged=sessionStorage.getItem('pp_appt_charged_'+i);
+    const noshow=sessionStorage.getItem('pp_appt_noshow_'+i);
+    if(charged){
+      const data=JSON.parse(charged);
+      const badge=document.getElementById('appt-badge-'+i);
+      if(badge){badge.className='badge green';badge.innerHTML='<span class="dot"></span>Charged';}
+      const clientCell=document.getElementById('appt-client-'+i);
+      if(clientCell){const sub=clientCell.querySelector('.sub');if(sub) sub.textContent='Charged '+data.time;}
+      const actions=document.getElementById('appt-actions-'+i);
+      if(actions) actions.querySelectorAll('.btn').forEach(b=>b.disabled=true);
+    } else if(noshow){
+      const badge=document.getElementById('appt-badge-'+i);
+      if(badge){badge.className='badge gray';badge.innerHTML='<span class="dot"></span>No-show';}
+      const clientCell=document.getElementById('appt-client-'+i);
+      if(clientCell){const sub=clientCell.querySelector('.sub');if(sub) sub.textContent='No-show · '+relDate(a.offset,'short');}
+      const actions=document.getElementById('appt-actions-'+i);
+      if(actions) actions.querySelectorAll('.btn').forEach(b=>b.disabled=true);
+    }
+  });
+}
+
+restoreState();
+
+// Modal
+let modalDeclineOutcome=false;
+
+function openNewApptModal(){
+  modalDeclineOutcome=Math.random()<0.3;
+  document.getElementById('decline-error').style.display='none';
+  document.getElementById('alt-card-form').style.display='none';
+  document.getElementById('try-card-btn').style.display='';
+  const saveBtn=document.getElementById('modal-save-btn');
+  saveBtn.disabled=false;
+  saveBtn.textContent='Save appointment';
+  document.getElementById('newApptModal').style.display='grid';
+  updateAmount();
+}
+
+function closeApptModal(){
+  document.getElementById('newApptModal').style.display='none';
+}
+
+function updateAmount(){
+  const svc=document.getElementById('apptService');
+  const method=document.getElementById('apptMethod').value;
+  const price=svc.options[svc.selectedIndex].dataset.price||'0.00';
+  let val;
+  if(method==='member') val='$0.00 (member)';
+  else if(method==='sub') val='$0.00 (subscription)';
+  else val='$'+price;
+  document.getElementById('apptAmountInput').value=val;
+}
+
+function saveAppt(){
+  const method=document.getElementById('apptMethod').value;
+  const svc=document.getElementById('apptService');
+  const price=svc.options[svc.selectedIndex].dataset.price||'0.00';
+  if(method==='prepay'&&modalDeclineOutcome){
+    document.getElementById('decline-error').style.display='block';
+    return;
+  }
+  closeApptModal();
+  showToast('Appointment saved');
+}
+
+function showAltCardForm(){
+  document.getElementById('try-card-btn').style.display='none';
+  document.getElementById('alt-card-form').style.display='block';
+}
+
+function switchToAtService(){
+  document.getElementById('apptMethod').value='atservice';
+  updateAmount();
+  document.getElementById('decline-error').style.display='none';
+}
+
+function retryWithNewCard(){
+  const btn=document.getElementById('retry-card-btn');
+  btn.textContent='Processing…';
+  btn.disabled=true;
+  const svc=document.getElementById('apptService');
+  const price=svc.options[svc.selectedIndex].dataset.price||'0.00';
+  setTimeout(()=>{
+    closeApptModal();
+    showToast('Payment succeeded · $'+price+' charged to new card');
+  },1200);
+}
+
+function showToast(msg){
+  const t=document.getElementById('pp-toast');
+  t.textContent=msg;
+  t.style.display='block';
+  clearTimeout(t._timer);
+  t._timer=setTimeout(()=>{t.style.display='none';},3000);
+}
+
+if(new URLSearchParams(location.search).get('new')) openNewApptModal();
+</script>
+</body>
+</html>
