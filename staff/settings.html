@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en"><head>
 <meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
-<title>Settings · Staff</title>
+<title>Settings · The Pilot Program Staff</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"/><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Montserrat:wght@700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
 <link rel="stylesheet" href="staff.css"/></head>
@@ -29,13 +29,7 @@
         <div class="card-body">
           <table class="data">
             <thead><tr><th>Name</th><th>Email</th><th>Role</th><th>Last login</th><th></th></tr></thead>
-            <tbody>
-              <tr><td><strong>Marcus Reid</strong><div class="sub">Founder</div></td><td>marcus@thepilotprogram.fit</td><td><span class="badge blue"><span class="dot"></span>Admin</span></td><td>Today · 8:02 AM</td><td><button class="btn sm">Edit</button></td></tr>
-              <tr><td><strong>Priya Nair</strong></td><td>priya@thepilotprogram.fit</td><td><span class="badge gray"><span class="dot"></span>Trainer</span></td><td>Today · 6:44 AM</td><td><button class="btn sm">Edit</button></td></tr>
-              <tr><td><strong>Jordan Calloway</strong></td><td>jordan@thepilotprogram.fit</td><td><span class="badge gray"><span class="dot"></span>Trainer</span></td><td>Yesterday · 7:12 PM</td><td><button class="btn sm">Edit</button></td></tr>
-              <tr><td><strong>Hana Oduya</strong></td><td>hana@thepilotprogram.fit</td><td><span class="badge amber"><span class="dot"></span>Front desk</span></td><td>Today · 5:58 AM</td><td><button class="btn sm">Edit</button></td></tr>
-              <tr><td><strong>Devon Price</strong></td><td>devon@thepilotprogram.fit</td><td><span class="badge amber"><span class="dot"></span>Front desk</span></td><td>Apr 14, 2026</td><td><button class="btn sm">Edit</button></td></tr>
-            </tbody>
+            <tbody id="staff-tbody"></tbody>
           </table>
         </div>
       </div>
@@ -44,7 +38,7 @@
         <div class="card-head"><h2>Payment settings</h2></div>
         <div class="card-body pad">
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
-            <div class="p-field"><label>Connected processor</label><input value="Stripe · acct_1PaK892H" disabled/></div>
+            <div class="p-field"><label>Connected processor</label><input value="Processor · acct_1PaK892H" disabled/></div>
             <div class="p-field"><label>Statement descriptor</label><input value="PILOTPGM STUDIO" disabled/></div>
             <div class="p-field"><label>Payout bank account</label><input value="Riverside Comm. Bank ···8821" disabled/></div>
             <div class="p-field"><label>Payout schedule</label><input value="Weekly · Fridays" disabled/></div>
@@ -80,4 +74,26 @@
     </div>
   </div>
 </main></div>
-<script src="staff.js"></script></body></html>
+<script src="staff.js"></script>
+<script>
+const staffRows=[
+  {name:'Marcus Reid',   sub:'Founder',  email:'marcus@thepilotprogram.fit', role:'Admin',      roleK:'blue',  login:'Today · 8:02 AM'},
+  {name:'Priya Nair',    sub:'',         email:'priya@thepilotprogram.fit',  role:'Trainer',    roleK:'gray',  login:'Today · 6:44 AM'},
+  {name:'Jordan Calloway',sub:'',        email:'jordan@thepilotprogram.fit', role:'Trainer',    roleK:'gray',  login:'Yesterday · 7:12 PM'},
+  {name:'Hana Oduya',    sub:'',         email:'hana@thepilotprogram.fit',   role:'Front desk', roleK:'amber', login:'Today · 5:58 AM'},
+  {name:'Devon Price',   sub:'',         email:'devon@thepilotprogram.fit',  role:'Front desk', roleK:'amber', login:relDate(-4,'long')},
+];
+const tbody=document.getElementById('staff-tbody');
+staffRows.forEach(s=>{
+  const tr=document.createElement('tr');
+  tr.innerHTML=`
+    <td><strong>${s.name}</strong>${s.sub?`<div class="sub">${s.sub}</div>`:''}</td>
+    <td>${s.email}</td>
+    <td><span class="badge ${s.roleK}"><span class="dot"></span>${s.role}</span></td>
+    <td>${s.login}</td>
+    <td><button class="btn sm">Edit</button></td>
+  `;
+  tbody.appendChild(tr);
+});
+</script>
+</body></html>

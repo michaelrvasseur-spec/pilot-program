@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en"><head>
 <meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
-<title>Payments · Staff</title>
+<title>Payments · The Pilot Program Staff</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"/><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Montserrat:wght@700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
 <link rel="stylesheet" href="staff.css"/></head>
@@ -11,12 +11,11 @@
     <div><h1>Payments <small>All transactions, disputes, refunds &amp; payouts</small></h1></div>
   </div>
 
-  <!-- Unified widget -->
   <div class="widget">
     <div class="widget-header">
-      <div class="title">Payments <span class="tag">Powered by Stripe</span></div>
+      <div class="title">Payments</div>
       <div class="controls">
-        <div class="date-range">Apr 1 – Apr 17, 2026 ▾</div>
+        <div class="date-range" id="pay-date-range">…</div>
         <div class="search" style="min-width:200px"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-5-5"/></svg><input placeholder="Search transactions…"/></div>
         <button class="btn sm">Export CSV</button>
       </div>
@@ -24,13 +23,13 @@
 
     <div class="widget-stats">
       <div class="cell"><div class="lbl">Total volume</div><div class="val">$42,187.00</div><div class="sub tabular">↑ 12% vs. prior period</div></div>
-      <div class="cell"><div class="lbl">Successful</div><div class="val">284</div><div class="sub">97.6% success rate</div></div>
+      <div class="cell"><div class="lbl">Successful</div><div class="val">293</div><div class="sub">97.5% success rate</div></div>
       <div class="cell"><div class="lbl">Refunds issued</div><div class="val">$842.00</div><div class="sub">7 refunds · 2.0%</div></div>
       <div class="cell"><div class="lbl">Open disputes</div><div class="val" style="color:var(--p-amber)">2</div><div class="sub" style="color:var(--p-amber)">Response due in 4 days</div></div>
     </div>
 
     <div class="tabs" id="pTabs">
-      <button class="tab active" data-tab="transactions">Transactions <span class="muted" style="font-weight:500">· 284</span></button>
+      <button class="tab active" data-tab="transactions">Transactions <span class="muted" style="font-weight:500">· 294</span></button>
       <button class="tab" data-tab="disputes">Disputes <span class="badge amber" style="margin-left:4px">2</span></button>
       <button class="tab" data-tab="refunds">Refunds <span class="muted" style="font-weight:500">· 7</span></button>
       <button class="tab" data-tab="subscriptions">Subscriptions <span class="muted" style="font-weight:500">· 187</span></button>
@@ -57,15 +56,7 @@
       <div class="tab-panel" id="panel-disputes">
         <table class="data">
           <thead><tr><th>Date</th><th>Client</th><th>Reason</th><th>Status</th><th>Response due</th><th class="num">Amount</th><th></th></tr></thead>
-          <tbody>
-            <tr style="background:#FFF7E6"><td>Apr 14, 2026</td><td>Kai Morales<div class="sub">kai@email.com</div></td><td>Product not received</td><td><span class="badge amber"><span class="dot"></span>Needs response</span></td><td style="color:var(--p-amber);font-weight:600">4 days</td><td class="num">$149.00</td><td><button class="btn sm" onclick="this.closest('tr').nextElementSibling.style.display=this.closest('tr').nextElementSibling.style.display==='none'?'table-row':'none'">Expand</button></td></tr>
-            <tr style="display:none"><td colspan="7" style="padding:0"><div class="row-detail"><div class="grid"><div><div class="k">Dispute ID</div><div class="v mono">dp_1PaX92KJ</div></div><div><div class="k">Client stated reason</div><div class="v">"Signed up for one month, was charged six months. Want them refunded."</div></div><div><div class="k">Original txn</div><div class="v mono">txn_3Nr89m</div></div><div><div class="k">Network</div><div class="v">Visa</div></div></div><div style="margin-top:12px"><div class="k">Submit evidence</div><textarea class="p-field" style="width:100%;min-height:60px;margin-top:6px" placeholder="Upload receipts, booking logs, or member portal screenshots…"></textarea></div><div class="actions"><button class="btn sm primary">Submit evidence</button><button class="btn sm">Accept dispute</button><button class="btn sm">View original transaction</button></div></div></td></tr>
-
-            <tr style="background:#FBE7E7"><td>Apr 11, 2026</td><td>Rafael Velasco<div class="sub">Elite member</div></td><td>Recurring charge disputed</td><td><span class="badge red"><span class="dot"></span>Needs response</span></td><td style="color:var(--p-red);font-weight:600">6 days</td><td class="num">$149.00</td><td><button class="btn sm">Expand</button></td></tr>
-
-            <tr><td>Apr 2, 2026</td><td>Priya Halai</td><td>Duplicate charge</td><td><span class="badge blue"><span class="dot"></span>Under review</span></td><td>Submitted Apr 5</td><td class="num">$95.00</td><td><button class="btn sm">Expand</button></td></tr>
-            <tr><td>Mar 21, 2026</td><td>Wes Ahmadi</td><td>Unrecognized charge</td><td><span class="badge green"><span class="dot"></span>Won</span></td><td>Closed</td><td class="num">$79.00</td><td><button class="btn sm">Expand</button></td></tr>
-          </tbody>
+          <tbody id="disputeBody"></tbody>
         </table>
       </div>
 
@@ -80,19 +71,11 @@
             <button class="filter-chip">Completed</button>
             <button class="filter-chip">Failed</button>
           </div>
-          <button class="btn sm primary">+ Issue new refund</button>
+          <button class="btn sm primary" onclick="openRefundModal()">+ Issue new refund</button>
         </div>
         <table class="data">
           <thead><tr><th>Refund date</th><th>Original txn</th><th>Client</th><th>Reason</th><th>Type</th><th>Status</th><th class="num">Original</th><th class="num">Refunded</th></tr></thead>
-          <tbody>
-            <tr><td>Apr 16, 2026</td><td class="mono">Apr 12 · $95.00</td><td>Elena Ruiz</td><td>Canceled appointment</td><td>Full</td><td><span class="badge green"><span class="dot"></span>Completed</span></td><td class="num">$95.00</td><td class="num">$95.00</td></tr>
-            <tr><td>Apr 15, 2026</td><td class="mono">Apr 3 · $800.00</td><td>Theo Park</td><td>Goodwill — unused sessions</td><td>Partial</td><td><span class="badge green"><span class="dot"></span>Completed</span></td><td class="num">$800.00</td><td class="num">$320.00</td></tr>
-            <tr><td>Apr 13, 2026</td><td class="mono">Apr 10 · $25.00</td><td>Mira Okafor</td><td>Class canceled by studio</td><td>Full</td><td><span class="badge green"><span class="dot"></span>Completed</span></td><td class="num">$25.00</td><td class="num">$25.00</td></tr>
-            <tr><td>Apr 10, 2026</td><td class="mono">Apr 1 · $79.00</td><td>Grace Liu</td><td>Membership paused</td><td>Partial</td><td><span class="badge amber"><span class="dot"></span>Pending</span></td><td class="num">$79.00</td><td class="num">$52.00</td></tr>
-            <tr><td>Apr 8, 2026</td><td class="mono">Mar 31 · $60.00</td><td>Vikram Shah</td><td>Scheduling conflict</td><td>Full</td><td><span class="badge green"><span class="dot"></span>Completed</span></td><td class="num">$60.00</td><td class="num">$60.00</td></tr>
-            <tr><td>Apr 4, 2026</td><td class="mono">Mar 22 · $425.00</td><td>Naomi Blake</td><td>Client request</td><td>Partial</td><td><span class="badge red"><span class="dot"></span>Failed</span></td><td class="num">$425.00</td><td class="num">$170.00</td></tr>
-            <tr><td>Apr 1, 2026</td><td class="mono">Mar 14 · $149.00</td><td>Kai Morales</td><td>Billing error</td><td>Full</td><td><span class="badge green"><span class="dot"></span>Completed</span></td><td class="num">$149.00</td><td class="num">$149.00</td></tr>
-          </tbody>
+          <tbody id="refundBody"></tbody>
         </table>
       </div>
 
@@ -107,16 +90,7 @@
         </div>
         <table class="data">
           <thead><tr><th>Client</th><th>Plan</th><th class="num">Amount</th><th>Next billing</th><th>Status</th><th></th></tr></thead>
-          <tbody>
-            <tr style="background:#FBE7E7"><td>Rafael Velasco<div class="sub">Since Feb 2024</div></td><td>Elite</td><td class="num">$149.00 / mo</td><td>Apr 18 (retry)</td><td><span class="badge red"><span class="dot"></span>Past due</span></td><td><button class="btn sm primary">Retry charge</button></td></tr>
-            <tr><td>Dana Kim</td><td>Core</td><td class="num">$79.00 / mo</td><td>May 1, 2026</td><td><span class="badge green"><span class="dot"></span>Active</span></td><td><button class="btn sm">Manage</button></td></tr>
-            <tr><td>Theo Park</td><td>Elite</td><td class="num">$149.00 / mo</td><td>May 1, 2026</td><td><span class="badge green"><span class="dot"></span>Active</span></td><td><button class="btn sm">Manage</button></td></tr>
-            <tr><td>Grace Liu</td><td>Core</td><td class="num">$79.00 / mo</td><td>Paused until Jun 1</td><td><span class="badge gray"><span class="dot"></span>Paused</span></td><td><button class="btn sm">Resume</button></td></tr>
-            <tr><td>Wes Ahmadi</td><td>Core</td><td class="num">$79.00 / mo</td><td>May 1, 2026</td><td><span class="badge green"><span class="dot"></span>Active</span></td><td><button class="btn sm">Manage</button></td></tr>
-            <tr><td>Priya Halai</td><td>Recovery add-on</td><td class="num">$49.00 / mo</td><td>May 1, 2026</td><td><span class="badge green"><span class="dot"></span>Active</span></td><td><button class="btn sm">Manage</button></td></tr>
-            <tr><td>Sam Abate</td><td>Core (annual)</td><td class="num">$790.00 / yr</td><td>Apr 4, 2027</td><td><span class="badge green"><span class="dot"></span>Active</span></td><td><button class="btn sm">Manage</button></td></tr>
-            <tr><td>Mia Okonkwo</td><td>Elite</td><td class="num">$149.00 / mo</td><td>—</td><td><span class="badge gray"><span class="dot"></span>Canceled</span></td><td><button class="btn sm">Reactivate</button></td></tr>
-          </tbody>
+          <tbody id="subBody"></tbody>
         </table>
       </div>
 
@@ -124,20 +98,55 @@
       <div class="tab-panel" id="panel-payouts">
         <table class="data">
           <thead><tr><th>Payout date</th><th>Bank account</th><th>Status</th><th>Transactions</th><th class="num">Amount</th><th></th></tr></thead>
-          <tbody>
-            <tr><td>Apr 16, 2026</td><td>Riverside Comm. Bank ···8821</td><td><span class="badge blue"><span class="dot"></span>In transit</span></td><td>42 txns · Apr 11–15</td><td class="num">$6,148.22</td><td><button class="btn sm">Details</button></td></tr>
-            <tr><td>Apr 9, 2026</td><td>Riverside Comm. Bank ···8821</td><td><span class="badge green"><span class="dot"></span>Paid</span></td><td>51 txns · Apr 4–8</td><td class="num">$7,822.90</td><td><button class="btn sm">Details</button></td></tr>
-            <tr><td>Apr 2, 2026</td><td>Riverside Comm. Bank ···8821</td><td><span class="badge green"><span class="dot"></span>Paid</span></td><td>47 txns · Mar 28–Apr 1</td><td class="num">$7,114.00</td><td><button class="btn sm">Details</button></td></tr>
-            <tr><td>Mar 26, 2026</td><td>Riverside Comm. Bank ···8821</td><td><span class="badge red"><span class="dot"></span>Failed</span></td><td>39 txns · Mar 21–25</td><td class="num">$5,687.10</td><td><button class="btn sm primary">Retry</button></td></tr>
-            <tr><td>Mar 19, 2026</td><td>Riverside Comm. Bank ···8821</td><td><span class="badge green"><span class="dot"></span>Paid</span></td><td>44 txns · Mar 14–18</td><td class="num">$6,492.15</td><td><button class="btn sm">Details</button></td></tr>
-          </tbody>
+          <tbody id="payoutBody"></tbody>
         </table>
       </div>
     </div>
   </div>
 </main></div>
+
+<!-- New Refund Modal -->
+<div id="newRefundModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.4);place-items:center;z-index:100;padding:20px">
+  <div style="background:#fff;border-radius:10px;max-width:520px;width:100%;max-height:90vh;overflow:auto">
+    <div style="padding:18px 22px;border-bottom:1px solid var(--p-border);display:flex;justify-content:space-between;align-items:center">
+      <h2>Issue refund</h2>
+      <button class="btn sm" onclick="closeRefundModal()">Close</button>
+    </div>
+    <div style="padding:22px">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+        <div class="p-field"><label>Client</label><input id="rf-client" value="Dana Kim"/></div>
+        <div class="p-field"><label>Original transaction</label><input id="rf-txn" placeholder="txn_…"/></div>
+        <div class="p-field"><label>Amount to refund</label><input id="rf-amount" placeholder="$0.00"/></div>
+        <div class="p-field"><label>Type</label>
+          <select id="rf-type"><option>Full</option><option>Partial</option></select>
+        </div>
+        <div class="p-field" style="grid-column:1/-1"><label>Reason</label>
+          <select id="rf-reason">
+            <option>Canceled appointment</option>
+            <option>Class canceled by studio</option>
+            <option>Duplicate charge</option>
+            <option>Billing error</option>
+            <option>Goodwill</option>
+            <option>Client request</option>
+          </select>
+        </div>
+      </div>
+      <div class="hstack" style="justify-content:flex-end;margin-top:14px">
+        <button class="btn" onclick="closeRefundModal()">Cancel</button>
+        <button class="btn primary" onclick="issueRefund()">Issue refund</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Toast -->
+<div id="pp-toast" style="display:none;position:fixed;bottom:24px;right:24px;background:#1C7C54;color:#fff;padding:12px 18px;border-radius:6px;font-size:13px;font-weight:500;z-index:200;box-shadow:0 4px 12px rgba(0,0,0,0.15)"></div>
+
 <script src="staff.js"></script>
 <script>
+// Date range header
+document.getElementById('pay-date-range').textContent=currentMonthFirst()+' – '+relDate(-1,'long')+' ▾';
+
 // Tabs
 document.querySelectorAll('#pTabs .tab').forEach(t=>{
   t.addEventListener('click',()=>{
@@ -147,37 +156,436 @@ document.querySelectorAll('#pTabs .tab').forEach(t=>{
     document.getElementById('panel-'+t.dataset.tab).classList.add('active');
   });
 });
-// Hash support for deep links
 const h=location.hash.replace('#','');
 if(h){const b=document.querySelector(`[data-tab="${h}"]`);if(b)b.click();}
 
-// Transactions data
+// ── TRANSACTIONS ──────────────────────────────────────────────────────────────
 const TX=[
-  {d:'Apr 17, 2026 · 2:15p',c:'Dana Kim',desc:'Core membership · Apr',m:'Visa ···4242',s:'green',sl:'Succeeded',a:79.00},
-  {d:'Apr 17, 2026 · 11:02a',c:'Sam Abate',desc:'Fitness Assessment',m:'Mastercard ···5511',s:'green',sl:'Succeeded',a:60.00},
-  {d:'Apr 17, 2026 · 9:44a',c:'Mira Okafor',desc:'Drop-in · The Control Group',m:'Visa ···9920',s:'green',sl:'Succeeded',a:25.00},
-  {d:'Apr 17, 2026 · 7:30a',c:'Vikram Shah',desc:'Drop-in · Sample Size',m:'Amex ···1007',s:'amber',sl:'Pending',a:25.00},
-  {d:'Apr 16, 2026 · 8:21p',c:'Elena Ruiz',desc:'N=1 Session · refund',m:'Visa ···3344',s:'gray',sl:'Refunded',a:-95.00},
-  {d:'Apr 16, 2026 · 6:14p',c:'Theo Park',desc:'Elite membership · Apr',m:'Visa ···7712',s:'green',sl:'Succeeded',a:149.00},
-  {d:'Apr 16, 2026 · 3:47p',c:'Rafael Velasco',desc:'Elite membership · Apr (retry)',m:'Visa ···9012',s:'red',sl:'Failed',a:149.00},
-  {d:'Apr 16, 2026 · 10:12a',c:'Naomi Blake',desc:'Drop-in · The Cohort · Deep',m:'Visa ···0821',s:'green',sl:'Succeeded',a:25.00},
-  {d:'Apr 15, 2026 · 7:50p',c:'Wes Ahmadi',desc:'Core membership · Apr',m:'Mastercard ···4409',s:'green',sl:'Succeeded',a:79.00},
-  {d:'Apr 15, 2026 · 2:31p',c:'Grace Liu',desc:'Partial refund · membership pause',m:'Visa ···1120',s:'gray',sl:'Refunded',a:-52.00},
-  {d:'Apr 15, 2026 · 11:30a',c:'Priya Halai',desc:'Recovery add-on · Apr',m:'Visa ···3310',s:'green',sl:'Succeeded',a:49.00},
-  {d:'Apr 14, 2026 · 9:06p',c:'Kai Morales',desc:'Elite membership · charge disputed',m:'Visa ···4580',s:'amber',sl:'Disputed',a:149.00},
-  {d:'Apr 14, 2026 · 4:12p',c:'Dana Oyelaran',desc:'N=1 Session · 10-pack',m:'Visa ···6699',s:'green',sl:'Succeeded',a:800.00},
-  {d:'Apr 14, 2026 · 8:44a',c:'Jules Nakamura',desc:'Drop-in · Baseline · Partners',m:'Visa ···2288',s:'green',sl:'Succeeded',a:25.00},
+  {dOff:0,  time:'2:15p', c:'Dana Kim',       desc:'Core membership · Apr',               m:'Visa ···4242',       s:'green', sl:'Succeeded', a:79.00},
+  {dOff:0,  time:'11:02a',c:'Sam Abate',       desc:'Fitness Assessment',                  m:'Mastercard ···5511', s:'green', sl:'Succeeded', a:60.00},
+  {dOff:0,  time:'9:44a', c:'Mira Okafor',     desc:'Drop-in · The Control Group',         m:'Visa ···9920',       s:'green', sl:'Succeeded', a:25.00},
+  {dOff:0,  time:'7:30a', c:'Vikram Shah',     desc:'Drop-in · Sample Size',               m:'Amex ···1007',       s:'amber', sl:'Pending',   a:25.00},
+  {dOff:-1, time:'8:21p', c:'Elena Ruiz',      desc:'N=1 Session · refund',                m:'Visa ···3344',       s:'gray',  sl:'Refunded',  a:-95.00},
+  {dOff:-1, time:'6:14p', c:'Theo Park',       desc:'Elite membership · Apr',              m:'Visa ···7712',       s:'green', sl:'Succeeded', a:149.00},
+  {dOff:-1, time:'3:47p', c:'Rafael Velasco',  desc:'Elite membership · Apr (retry)',      m:'Visa ···9012',       s:'red',   sl:'Failed',    a:149.00},
+  {dOff:-1, time:'10:12a',c:'Naomi Blake',     desc:'Drop-in · The Cohort · Deep',         m:'Visa ···0821',       s:'green', sl:'Succeeded', a:25.00},
+  {dOff:-2, time:'7:50p', c:'Wes Ahmadi',      desc:'Core membership · Apr',               m:'Mastercard ···4409', s:'green', sl:'Succeeded', a:79.00},
+  {dOff:-2, time:'2:31p', c:'Grace Liu',       desc:'Partial refund · membership pause',   m:'Visa ···1120',       s:'gray',  sl:'Refunded',  a:-52.00},
+  {dOff:-2, time:'11:30a',c:'Priya Halai',     desc:'Recovery add-on · Apr',               m:'Visa ···3310',       s:'green', sl:'Succeeded', a:49.00},
+  {dOff:-3, time:'9:06p', c:'Kai Morales',     desc:'Elite membership · charge disputed',  m:'Visa ···4580',       s:'amber', sl:'Disputed',  a:149.00},
+  {dOff:-3, time:'4:12p', c:'Dana Oyelaran',   desc:'N=1 Session · 10-pack',               m:'Visa ···6699',       s:'green', sl:'Succeeded', a:800.00},
+  {dOff:-3, time:'8:44a', c:'Jules Nakamura',  desc:'Drop-in · Baseline · Partners',       m:'Visa ···2288',       s:'green', sl:'Succeeded', a:25.00},
+  {dOff:-4, time:'5:22p', c:'Theo Park',       desc:'Recovery Session · private',          m:'Visa ···7712',       s:'green', sl:'Succeeded', a:75.00},
+  {dOff:-5, time:'3:11p', c:'Wes Ahmadi',      desc:'Drop-in · Express',                   m:'Mastercard ···4409', s:'green', sl:'Succeeded', a:25.00},
+  {dOff:-6, time:'6:44a', c:'Sam Abate',       desc:'Fitness Assessment',                  m:'Mastercard ···5511', s:'green', sl:'Succeeded', a:60.00},
+  {dOff:-7, time:'8:30a', c:'Priya Halai',     desc:'Recovery add-on · Mar',               m:'Visa ···3310',       s:'green', sl:'Succeeded', a:49.00},
+  {dOff:-8, time:'4:50p', c:'Dana Oyelaran',   desc:'N=1 Session',                         m:'Visa ···6699',       s:'green', sl:'Succeeded', a:95.00},
+  {dOff:-9, time:'11:20a',c:'Mira Okafor',     desc:'Drop-in · The Cohort',                m:'Visa ···9920',       s:'green', sl:'Succeeded', a:25.00},
+  {dOff:-10,time:'7:00a', c:'Grace Liu',       desc:'Core membership · Mar',               m:'Visa ···1120',       s:'green', sl:'Succeeded', a:79.00},
+  {dOff:-11,time:'2:45p', c:'Naomi Blake',     desc:'Drop-in · Sample Size',               m:'Visa ···0821',       s:'green', sl:'Succeeded', a:25.00},
+  {dOff:-12,time:'9:15a', c:'Theo Park',       desc:'Elite membership · Mar',              m:'Visa ···7712',       s:'green', sl:'Succeeded', a:149.00},
+  {dOff:-13,time:'3:30p', c:'Dana Kim',        desc:'Core membership · Mar',               m:'Visa ···4242',       s:'green', sl:'Succeeded', a:79.00},
 ];
 const txBody=document.getElementById('txBody');
 TX.forEach((t,i)=>{
+  const dateStr=relDate(t.dOff,'long')+' · '+t.time;
   const row=document.createElement('tr');
   row.style.cursor='pointer';
-  row.onclick=()=>{const d=document.getElementById('tx-det-'+i);d.style.display=d.style.display==='none'||!d.style.display?'table-row':'none'};
-  row.innerHTML=`<td>${t.d}</td><td>${t.c}</td><td>${t.desc}</td><td class="mono">${t.m}</td><td><span class="badge ${t.s}"><span class="dot"></span>${t.sl}</span></td><td class="num">${t.a<0?'−$'+Math.abs(t.a).toFixed(2):'$'+t.a.toFixed(2)}</td><td>▾</td>`;
+  row.onclick=()=>{const d=document.getElementById('tx-det-'+i);d.style.display=(d.style.display===''||d.style.display==='none')?'table-row':'none';};
+  row.innerHTML=`<td>${dateStr}</td><td>${t.c}</td><td>${t.desc}</td><td class="mono">${t.m}</td><td><span class="badge ${t.s}"><span class="dot"></span>${t.sl}</span></td><td class="num">${t.a<0?'−$'+Math.abs(t.a).toFixed(2):'$'+t.a.toFixed(2)}</td><td>▾</td>`;
   txBody.appendChild(row);
   const det=document.createElement('tr');det.id='tx-det-'+i;det.style.display='none';
-  det.innerHTML=`<td colspan="7" style="padding:0"><div class="row-detail"><div class="grid"><div><div class="k">Transaction ID</div><div class="v mono">txn_${(Math.random().toString(36).slice(2,12)).toUpperCase()}</div></div><div><div class="k">Auth code</div><div class="v mono">AUTH-${(Math.random()*900000|0)+100000}</div></div><div><div class="k">Card type</div><div class="v">${t.m.split(' ···')[0]} · Credit</div></div><div><div class="k">Linked appointment</div><div class="v">${t.desc}</div></div></div><div class="actions"><button class="btn sm primary">Issue refund</button><button class="btn sm">Send receipt</button><button class="btn sm">View client</button></div></div></td>`;
+  const txId='TXN_'+(Math.abs(i*9973+7)%900000+100000).toString(36).toUpperCase().slice(0,8);
+  const auth='AUTH-'+(Math.abs(i*6577+3)%900000+100000);
+  det.innerHTML=`<td colspan="7" style="padding:0"><div class="row-detail"><div class="grid"><div><div class="k">Transaction ID</div><div class="v mono">${txId}</div></div><div><div class="k">Auth code</div><div class="v mono">${auth}</div></div><div><div class="k">Card type</div><div class="v">${t.m.split(' ···')[0]} · Credit</div></div><div><div class="k">Linked appointment</div><div class="v">${t.desc}</div></div></div><div class="actions"><button class="btn sm primary">Issue refund</button><button class="btn sm">Send receipt</button><button class="btn sm">View client</button></div></div></td>`;
   txBody.appendChild(det);
 });
+
+// ── DISPUTES ─────────────────────────────────────────────────────────────────
+const DISPUTES=[
+  {id:'kai',   rowBg:'#FFF7E6', date:relDate(-3,'long'), client:'Kai Morales',   sub:'kai@email.com',  reason:'Product not received',     sk:'amber',sl:'Needs response',due:'4 days',     dueSt:'var(--p-amber)',amt:149.00, dispId:'dp_1PaX92KJ',origTxn:'txn_3Nr89m', net:'Visa',        stmt:'"Signed up for one month, was charged six months. Want them refunded."'},
+  {id:'rafael',rowBg:'#FBE7E7', date:relDate(-6,'long'), client:'Rafael Velasco',sub:'Elite member',   reason:'Recurring charge disputed', sk:'red',  sl:'Needs response',due:'6 days',     dueSt:'var(--p-red)',  amt:149.00, dispId:'dp_9Kp12LM', origTxn:'txn_7Vb41n', net:'Visa',        stmt:'"I canceled my membership in January but was still charged. Please refund."'},
+  {id:'priya', rowBg:'',        date:relDate(-15,'long'),client:'Priya Halai',   sub:'',               reason:'Duplicate charge',          sk:'blue', sl:'Under review',  due:'Submitted '+relDate(-12,'short'),dueSt:'',amt:95.00, dispId:'dp_2Wq88PK',origTxn:'txn_4Hc22r', net:'Mastercard',  stmt:'"I was charged twice for the same session."'},
+  {id:'wes',   rowBg:'',        date:relDate(-27,'long'),client:'Wes Ahmadi',    sub:'',               reason:'Unrecognized charge',        sk:'green',sl:'Won',           due:'Closed',     dueSt:'',              amt:79.00, dispId:'dp_5Xm33NR', origTxn:'txn_8Yd77s', net:'Mastercard',  stmt:'"I don\'t recognize this charge on my statement."'},
+];
+const needsAction=new Set(['kai','rafael']);
+const disputeBody=document.getElementById('disputeBody');
+DISPUTES.forEach(d=>{
+  const mainRow=document.createElement('tr');
+  mainRow.id='dispute-row-'+d.id;
+  if(d.rowBg) mainRow.style.background=d.rowBg;
+  mainRow.innerHTML=`
+    <td>${d.date}</td>
+    <td>${d.client}${d.sub?`<div class="sub">${d.sub}</div>`:''}</td>
+    <td>${d.reason}</td>
+    <td id="dispute-badge-${d.id}"><span class="badge ${d.sk}"><span class="dot"></span>${d.sl}</span></td>
+    <td id="dispute-due-${d.id}" ${d.dueSt?`style="color:${d.dueSt};font-weight:600"`:''}>${d.due}</td>
+    <td class="num">$${d.amt.toFixed(2)}</td>
+    <td><button class="btn sm" onclick="toggleDispute('${d.id}')">Expand</button></td>
+  `;
+  disputeBody.appendChild(mainRow);
+
+  const detRow=document.createElement('tr');
+  detRow.id='dispute-det-'+d.id;
+  detRow.style.display='none';
+  const actionsBtns=needsAction.has(d.id)?`
+    <button class="btn sm primary" id="dispute-submit-btn-${d.id}" onclick="submitEvidence('${d.id}',${d.amt})">Submit evidence</button>
+    <button class="btn sm" id="dispute-accept-btn-${d.id}" onclick="acceptDispute('${d.id}',${d.amt})">Accept dispute</button>
+    <button class="btn sm">View original transaction</button>
+  `:`<button class="btn sm">View original transaction</button>`;
+
+  detRow.innerHTML=`<td colspan="7" style="padding:0"><div class="row-detail">
+    <div class="grid">
+      <div><div class="k">Dispute ID</div><div class="v mono">${d.dispId}</div></div>
+      <div><div class="k">Client stated reason</div><div class="v">${d.stmt}</div></div>
+      <div><div class="k">Original txn</div><div class="v mono">${d.origTxn}</div></div>
+      <div><div class="k">Network</div><div class="v">${d.net}</div></div>
+    </div>
+    <div id="dispute-evidence-wrap-${d.id}" style="margin-top:12px">
+      <div class="k">Submit evidence</div>
+      <textarea style="width:100%;min-height:60px;margin-top:6px;font-family:inherit;font-size:13px;padding:8px;border:1px solid var(--p-border);border-radius:4px;box-sizing:border-box" placeholder="Upload receipts, booking logs, or member portal screenshots…"></textarea>
+    </div>
+    <div id="dispute-submitted-${d.id}" style="display:none;margin-top:12px;padding:12px;background:#F0FDF4;border:1px solid #BBF7D0;border-radius:6px;font-size:13px;color:#166534">
+      Evidence submitted. We'll notify you of the outcome within 5–7 business days.
+    </div>
+    <div id="dispute-accepted-${d.id}" style="display:none;margin-top:12px;font-size:13px;color:var(--p-text-2)">
+      Dispute accepted · $${d.amt.toFixed(2)} returned to client.
+    </div>
+    <div class="actions" id="dispute-actions-${d.id}">${actionsBtns}</div>
+  </div></td>`;
+  disputeBody.appendChild(detRow);
+});
+
+function toggleDispute(id){
+  const el=document.getElementById('dispute-det-'+id);
+  el.style.display=(el.style.display===''||el.style.display==='none')?'table-row':'none';
+}
+
+function submitEvidence(id,amount){
+  document.getElementById('dispute-evidence-wrap-'+id).style.display='none';
+  document.getElementById('dispute-submitted-'+id).style.display='block';
+  document.getElementById('dispute-actions-'+id).style.display='none';
+  const badge=document.getElementById('dispute-badge-'+id);
+  badge.innerHTML='<span class="badge blue"><span class="dot"></span>Under review</span>';
+  const due=document.getElementById('dispute-due-'+id);
+  due.style.cssText='';
+  due.textContent='Submitted '+relDate(0,'short');
+  sessionStorage.setItem('pp_dispute_'+id,'submitted');
+}
+
+function acceptDispute(id,amount){
+  document.getElementById('dispute-evidence-wrap-'+id).style.display='none';
+  document.getElementById('dispute-accepted-'+id).style.display='block';
+  document.getElementById('dispute-actions-'+id).style.display='none';
+  const badge=document.getElementById('dispute-badge-'+id);
+  badge.innerHTML='<span class="badge gray"><span class="dot"></span>Accepted</span>';
+  const due=document.getElementById('dispute-due-'+id);
+  due.style.cssText='';
+  due.textContent='Closed';
+  document.getElementById('dispute-row-'+id).style.background='';
+  sessionStorage.setItem('pp_dispute_'+id,'accepted');
+}
+
+// ── REFUNDS ───────────────────────────────────────────────────────────────────
+const REFUNDS=[
+  {dOff:-1,  origDesc:'Apr 12 · $95.00',  client:'Elena Ruiz',  reason:'Canceled appointment',      type:'Full',    s:'green',sl:'Completed',orig:95.00,  ref:95.00},
+  {dOff:-2,  origDesc:'Apr 3 · $800.00',  client:'Theo Park',   reason:'Goodwill — unused sessions', type:'Partial', s:'green',sl:'Completed',orig:800.00, ref:320.00},
+  {dOff:-4,  origDesc:'Apr 10 · $25.00',  client:'Mira Okafor', reason:'Class canceled by studio',   type:'Full',    s:'green',sl:'Completed',orig:25.00,  ref:25.00},
+  {dOff:-7,  origDesc:'Apr 1 · $79.00',   client:'Grace Liu',   reason:'Membership paused',          type:'Partial', s:'amber',sl:'Pending',  orig:79.00,  ref:52.00},
+  {dOff:-9,  origDesc:'Mar 31 · $60.00',  client:'Vikram Shah', reason:'Scheduling conflict',         type:'Full',    s:'green',sl:'Completed',orig:60.00,  ref:60.00},
+  {dOff:-13, origDesc:'Mar 22 · $425.00', client:'Naomi Blake', reason:'Client request',              type:'Partial', s:'red',  sl:'Failed',   orig:425.00, ref:170.00},
+  {dOff:-16, origDesc:'Mar 14 · $149.00', client:'Kai Morales', reason:'Billing error',               type:'Full',    s:'green',sl:'Completed',orig:149.00, ref:149.00},
+];
+const refundBody=document.getElementById('refundBody');
+REFUNDS.forEach(r=>{
+  const tr=document.createElement('tr');
+  tr.innerHTML=`
+    <td>${relDate(r.dOff,'long')}</td>
+    <td class="mono">${r.origDesc}</td>
+    <td>${r.client}</td>
+    <td>${r.reason}</td>
+    <td>${r.type}</td>
+    <td><span class="badge ${r.s}"><span class="dot"></span>${r.sl}</span></td>
+    <td class="num">$${r.orig.toFixed(2)}</td>
+    <td class="num">$${r.ref.toFixed(2)}</td>
+  `;
+  refundBody.appendChild(tr);
+});
+
+function openRefundModal(){
+  document.getElementById('newRefundModal').style.display='grid';
+}
+function closeRefundModal(){
+  document.getElementById('newRefundModal').style.display='none';
+}
+function issueRefund(){
+  const client=document.getElementById('rf-client').value||'Unknown';
+  const amount=document.getElementById('rf-amount').value||'$0.00';
+  const reason=document.getElementById('rf-reason').value;
+  const type=document.getElementById('rf-type').value;
+  const data={client,amount,reason,type};
+  sessionStorage.setItem('pp_refund_new',JSON.stringify(data));
+  prependRefundRow(data);
+  closeRefundModal();
+  showToast('Refund issued · '+amount+' to '+client);
+}
+function prependRefundRow(data){
+  const tr=document.createElement('tr');
+  tr.id='new-refund-row';
+  tr.style.background='#FFFBEB';
+  tr.innerHTML=`
+    <td>${relDate(0,'long')}</td>
+    <td class="mono">—</td>
+    <td>${data.client}</td>
+    <td>${data.reason}</td>
+    <td>${data.type}</td>
+    <td><span class="badge amber"><span class="dot"></span>Pending</span></td>
+    <td class="num">${data.amount}</td>
+    <td class="num">${data.amount}</td>
+  `;
+  refundBody.insertBefore(tr,refundBody.firstChild);
+}
+
+// ── SUBSCRIPTIONS ─────────────────────────────────────────────────────────────
+const subBody=document.getElementById('subBody');
+
+// Rafael row
+const rafaelTr=document.createElement('tr');
+rafaelTr.id='sub-row-rafael';
+rafaelTr.style.background='#FBE7E7';
+rafaelTr.innerHTML=`
+  <td>Rafael Velasco<div class="sub">Since Feb 2024</div></td>
+  <td>Elite</td>
+  <td class="num">$149.00 / mo</td>
+  <td id="rafael-next-billing">${relDate(1,'long')} (retry)</td>
+  <td id="rafael-status"><span class="badge red"><span class="dot"></span>Past due</span></td>
+  <td>
+    <button class="btn sm primary" id="rafael-retry-btn" onclick="retryRafael(this)">Retry charge</button>
+  </td>
+`;
+subBody.appendChild(rafaelTr);
+
+// Danai row
+const danaiTr=document.createElement('tr');
+danaiTr.id='sub-row-danai';
+danaiTr.style.background='#FBE7E7';
+danaiTr.innerHTML=`
+  <td>Danai Mbeki<div class="sub">Since Mar 2026</div></td>
+  <td>Core</td>
+  <td class="num">$79.00 / mo</td>
+  <td>—</td>
+  <td><span class="badge red"><span class="dot"></span>Past due</span></td>
+  <td id="danai-actions">
+    <button class="btn sm primary" id="danai-retry-btn" onclick="retryDanai(this)">Retry charge</button>
+    <div id="danai-fail-wrap" style="display:none">
+      <div style="color:var(--p-red);font-size:12px;margin-bottom:6px;font-weight:500">Retry failed · Card declined.</div>
+      <button class="btn sm" id="danai-contact-btn" onclick="contactDanai()">Contact client</button>
+    </div>
+  </td>
+`;
+subBody.appendChild(danaiTr);
+
+// Danai email panel row
+const danaiEmailTr=document.createElement('tr');
+danaiEmailTr.id='danai-email-row';
+danaiEmailTr.style.display='none';
+danaiEmailTr.innerHTML=`<td colspan="6" style="padding:0">
+  <div style="padding:14px 18px;background:#FFFBEB;border-top:1px solid #FDE68A">
+    <div style="font-size:12px;font-weight:600;color:var(--p-text-2);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:6px">Email draft</div>
+    <div style="font-size:12px;color:var(--p-text-2);margin-bottom:8px">To: danai@email.com · Subject: Action needed: Past-due membership</div>
+    <textarea id="danai-email-body" style="width:100%;min-height:90px;font-size:12px;border:1px solid var(--p-border);border-radius:4px;padding:8px;font-family:inherit;resize:vertical;box-sizing:border-box">Hi Danai,
+
+Your Core membership payment of $79.00 couldn't be processed. Please update your payment method at your earliest convenience to keep your membership active.
+
+You can update your card at: https://thepilotprogram.fit/account
+
+If you have any questions, please reply or call us at (951) 555-0174.
+
+— The Pilot Program team</textarea>
+    <div class="hstack" style="gap:8px;margin-top:8px">
+      <button class="btn sm primary" onclick="copyDanaiEmail()">Copy email</button>
+      <button class="btn sm" onclick="dismissDanaiEmail()">Dismiss</button>
+    </div>
+  </div>
+</td>`;
+subBody.appendChild(danaiEmailTr);
+
+// Remaining subscription rows
+const OTHER_SUBS=[
+  {name:'Dana Kim',     sub:'',               plan:'Core',           amt:'$79.00 / mo',  next:'May 1, 2026',       sk:'green',sl:'Active',   btn:'Manage'},
+  {name:'Theo Park',    sub:'',               plan:'Elite',          amt:'$149.00 / mo', next:'May 1, 2026',       sk:'green',sl:'Active',   btn:'Manage'},
+  {name:'Grace Liu',    sub:'',               plan:'Core',           amt:'$79.00 / mo',  next:'Paused until Jun 1',sk:'gray', sl:'Paused',   btn:'Resume'},
+  {name:'Wes Ahmadi',   sub:'',               plan:'Core',           amt:'$79.00 / mo',  next:'May 1, 2026',       sk:'green',sl:'Active',   btn:'Manage'},
+  {name:'Priya Halai',  sub:'',               plan:'Recovery add-on',amt:'$49.00 / mo',  next:'May 1, 2026',       sk:'green',sl:'Active',   btn:'Manage'},
+  {name:'Sam Abate',    sub:'',               plan:'Core (annual)',  amt:'$790.00 / yr', next:'Apr 4, 2027',       sk:'green',sl:'Active',   btn:'Manage'},
+  {name:'Mia Okonkwo',  sub:'',               plan:'Elite',          amt:'$149.00 / mo', next:'—',                 sk:'gray', sl:'Canceled', btn:'Reactivate'},
+];
+OTHER_SUBS.forEach(s=>{
+  const tr=document.createElement('tr');
+  tr.innerHTML=`
+    <td>${s.name}${s.sub?`<div class="sub">${s.sub}</div>`:''}</td>
+    <td>${s.plan}</td>
+    <td class="num">${s.amt}</td>
+    <td>${s.next}</td>
+    <td><span class="badge ${s.sk}"><span class="dot"></span>${s.sl}</span></td>
+    <td><button class="btn sm">${s.btn}</button></td>
+  `;
+  subBody.appendChild(tr);
+});
+
+function retryRafael(btn){
+  btn.textContent='Retrying…';
+  btn.disabled=true;
+  setTimeout(()=>{
+    document.getElementById('sub-row-rafael').style.background='';
+    document.getElementById('rafael-status').innerHTML='<span class="badge green"><span class="dot"></span>Active</span>';
+    document.getElementById('rafael-next-billing').textContent=nextMonthFirst();
+    btn.textContent='Manage';
+    btn.className='btn sm';
+    btn.disabled=false;
+    btn.onclick=null;
+    sessionStorage.setItem('pp_sub_rafael','1');
+    showToast('Charge succeeded · $149.00 charged to Visa ···9012');
+  },1200);
+}
+
+function retryDanai(btn){
+  btn.textContent='Retrying…';
+  btn.disabled=true;
+  setTimeout(()=>{
+    btn.style.display='none';
+    document.getElementById('danai-fail-wrap').style.display='block';
+    if(sessionStorage.getItem('pp_sub_danai')!=='contacted'){
+      sessionStorage.setItem('pp_sub_danai','failed');
+    }
+  },1200);
+}
+
+function contactDanai(){
+  document.getElementById('danai-email-row').style.display='table-row';
+  sessionStorage.setItem('pp_sub_danai','contacted');
+}
+
+function copyDanaiEmail(){
+  const body=document.getElementById('danai-email-body').value;
+  navigator.clipboard.writeText(body).catch(()=>{});
+  showToast('Email draft copied to clipboard');
+  sessionStorage.setItem('pp_sub_danai','contacted');
+}
+
+function dismissDanaiEmail(){
+  document.getElementById('danai-email-row').style.display='none';
+}
+
+// ── PAYOUTS ───────────────────────────────────────────────────────────────────
+const PAYOUTS=[
+  {dOff:-1,  s:'blue', sl:'In transit',txCnt:42,tFrom:-6, tTo:-2, amt:6148.22,retry:false},
+  {dOff:-8,  s:'green',sl:'Paid',      txCnt:51,tFrom:-13,tTo:-9, amt:7822.90,retry:false},
+  {dOff:-15, s:'green',sl:'Paid',      txCnt:47,tFrom:-20,tTo:-16,amt:7114.00,retry:false},
+  {dOff:-22, s:'red',  sl:'Failed',    txCnt:39,tFrom:-27,tTo:-23,amt:5687.10,retry:true},
+  {dOff:-29, s:'green',sl:'Paid',      txCnt:44,tFrom:-34,tTo:-30,amt:6492.15,retry:false},
+];
+const payoutBody=document.getElementById('payoutBody');
+PAYOUTS.forEach((p,i)=>{
+  const tr=document.createElement('tr');
+  tr.id='payout-row-'+i;
+  const txRange=p.txCnt+' txns · '+relDate(p.tFrom,'short')+'–'+relDate(p.tTo,'short');
+  const actionBtn=p.retry
+    ?`<button class="btn sm primary" id="payout-retry-btn-${i}" onclick="retryPayout(this,${i})">Retry</button>`
+    :`<button class="btn sm">Details</button>`;
+  tr.innerHTML=`
+    <td>${relDate(p.dOff,'long')}</td>
+    <td>Riverside Comm. Bank ···8821</td>
+    <td id="payout-status-${i}"><span class="badge ${p.s}"><span class="dot"></span>${p.sl}</span></td>
+    <td>${txRange}</td>
+    <td class="num">$${p.amt.toFixed(2)}</td>
+    <td>${actionBtn}</td>
+  `;
+  payoutBody.appendChild(tr);
+});
+
+function retryPayout(btn,i){
+  btn.textContent='Retrying…';
+  btn.disabled=true;
+  setTimeout(()=>{
+    document.getElementById('payout-status-'+i).innerHTML='<span class="badge green"><span class="dot"></span>Paid</span>';
+    btn.textContent='Details';
+    btn.className='btn sm';
+    btn.disabled=false;
+    btn.onclick=null;
+    sessionStorage.setItem('pp_payout_retry','1');
+    showToast('Payout retried successfully');
+  },1200);
+}
+
+// ── SESSION RESTORE ───────────────────────────────────────────────────────────
+(function restoreState(){
+  // Disputes
+  ['kai','rafael'].forEach(id=>{
+    const state=sessionStorage.getItem('pp_dispute_'+id);
+    if(state==='submitted'){
+      document.getElementById('dispute-evidence-wrap-'+id).style.display='none';
+      document.getElementById('dispute-submitted-'+id).style.display='block';
+      document.getElementById('dispute-actions-'+id).style.display='none';
+      const badge=document.getElementById('dispute-badge-'+id);
+      if(badge) badge.innerHTML='<span class="badge blue"><span class="dot"></span>Under review</span>';
+      const due=document.getElementById('dispute-due-'+id);
+      if(due){due.style.cssText='';due.textContent='Submitted';}
+    } else if(state==='accepted'){
+      document.getElementById('dispute-evidence-wrap-'+id).style.display='none';
+      document.getElementById('dispute-accepted-'+id).style.display='block';
+      document.getElementById('dispute-actions-'+id).style.display='none';
+      const badge=document.getElementById('dispute-badge-'+id);
+      if(badge) badge.innerHTML='<span class="badge gray"><span class="dot"></span>Accepted</span>';
+      const due=document.getElementById('dispute-due-'+id);
+      if(due){due.style.cssText='';due.textContent='Closed';}
+      const row=document.getElementById('dispute-row-'+id);
+      if(row) row.style.background='';
+    }
+  });
+
+  // Rafael subscription
+  if(sessionStorage.getItem('pp_sub_rafael')){
+    document.getElementById('sub-row-rafael').style.background='';
+    document.getElementById('rafael-status').innerHTML='<span class="badge green"><span class="dot"></span>Active</span>';
+    document.getElementById('rafael-next-billing').textContent=nextMonthFirst();
+    const btn=document.getElementById('rafael-retry-btn');
+    if(btn){btn.textContent='Manage';btn.className='btn sm';btn.disabled=false;btn.onclick=null;}
+  }
+
+  // Danai subscription
+  const danaiState=sessionStorage.getItem('pp_sub_danai');
+  if(danaiState==='failed'||danaiState==='contacted'){
+    const rb=document.getElementById('danai-retry-btn');
+    if(rb) rb.style.display='none';
+    document.getElementById('danai-fail-wrap').style.display='block';
+    if(danaiState==='contacted'){
+      document.getElementById('danai-email-row').style.display='table-row';
+    }
+  }
+
+  // New refund
+  const rfData=sessionStorage.getItem('pp_refund_new');
+  if(rfData) prependRefundRow(JSON.parse(rfData));
+
+  // Payout retry
+  if(sessionStorage.getItem('pp_payout_retry')){
+    const failIdx=PAYOUTS.findIndex(p=>p.retry);
+    if(failIdx>=0){
+      const statusEl=document.getElementById('payout-status-'+failIdx);
+      if(statusEl) statusEl.innerHTML='<span class="badge green"><span class="dot"></span>Paid</span>';
+      const retryBtn=document.getElementById('payout-retry-btn-'+failIdx);
+      if(retryBtn){retryBtn.textContent='Details';retryBtn.className='btn sm';retryBtn.onclick=null;}
+    }
+  }
+})();
+
+function showToast(msg){
+  const t=document.getElementById('pp-toast');
+  t.textContent=msg;
+  t.style.display='block';
+  clearTimeout(t._timer);
+  t._timer=setTimeout(()=>{t.style.display='none';},3000);
+}
 </script>
 </body></html>

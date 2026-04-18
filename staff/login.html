@@ -47,27 +47,33 @@ const em=document.getElementById('em');
 const pw=document.getElementById('pw');
 const btn=document.getElementById('submitBtn');
 
-function sleep(ms){return new Promise(r=>setTimeout(r,ms))}
-async function typeInto(el, str, per=55){
+function sleep(ms){return new Promise(r=>setTimeout(r,ms));}
+
+async function typeInto(el,str,per=55){
   el.focus();
-  for(const ch of str){ el.value += ch; await sleep(per) }
+  for(const ch of str){
+    el.value+=ch;
+    await sleep(per+Math.floor(Math.random()*30)-15);
+  }
 }
+
 async function run(){
   await sleep(500);
-  await typeInto(em, EMAIL, 45);
+  await typeInto(em,EMAIL,45);
   await sleep(250);
   pw.focus();
-  await typeInto(pw, PW, 60);
+  await typeInto(pw,PW,60);
   await sleep(1000);
   btn.textContent='Signing in…';
   btn.disabled=true;
   await sleep(500);
   submitLogin();
 }
+
 function submitLogin(){
-  // Always succeeds — no real auth.
   location.href='dashboard.html';
 }
+
 run();
 </script>
 </body>

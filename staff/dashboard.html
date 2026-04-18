@@ -15,7 +15,7 @@
 <main class="main">
   <div class="topbar">
     <div>
-      <h1>Dashboard <small>Friday, April 17, 2026</small></h1>
+      <h1>Dashboard <small id="dash-date"></small></h1>
     </div>
     <div class="top-actions">
       <div class="search"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-5-5"/></svg><input placeholder="Search clients, appointments…"/></div>
@@ -110,12 +110,7 @@
         <div class="card-head"><h2>New clients this week</h2></div>
         <div class="card-body">
           <table class="data">
-            <tbody>
-              <tr><td>Naomi Blake</td><td class="right muted">Tue</td></tr>
-              <tr><td>Vikram Shah</td><td class="right muted">Wed</td></tr>
-              <tr><td>Elena Ruiz</td><td class="right muted">Thu</td></tr>
-              <tr><td>Sam Abate</td><td class="right muted">Today</td></tr>
-            </tbody>
+            <tbody id="new-clients-body"></tbody>
           </table>
         </div>
       </div>
@@ -124,5 +119,29 @@
 </main>
 </div>
 <script src="staff.js"></script>
+<script>
+// Reset detection
+if(new URLSearchParams(location.search).get('reset')){
+  ppClearSession();
+  history.replaceState(null,'',location.pathname);
+}
+
+// Dynamic header date
+document.getElementById('dash-date').textContent=fullDateStr();
+
+// New clients this week — offsets -4, -3, -2, 0
+const newClients=[
+  {name:'Naomi Blake', offset:-4},
+  {name:'Vikram Shah',  offset:-3},
+  {name:'Elena Ruiz',   offset:-2},
+  {name:'Sam Abate',    offset:0},
+];
+const ncBody=document.getElementById('new-clients-body');
+newClients.forEach(c=>{
+  const tr=document.createElement('tr');
+  tr.innerHTML=`<td>${c.name}</td><td class="right muted">${relDayLabel(c.offset)}</td>`;
+  ncBody.appendChild(tr);
+});
+</script>
 </body>
 </html>
